@@ -1,6 +1,8 @@
 package com.example.etienne.sweetcity;
 
+import android.accounts.AccountManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -11,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,11 @@ public class MapsActivity extends FragmentActivity {
     private GoogleMap map; // Might be null if Google Play services APK is not available.
     private List<Report> reports;
     public static final int REPORT_ACTIVITY = 12;
+
+    private GoogleAccountCredential credential;
+    private SharedPreferences settings;
+    private String accountName;
+    private static final int REQUEST_ACCOUNT_PICKER = 2;  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,21 @@ public class MapsActivity extends FragmentActivity {
                 startActivityForResult(intent, REPORT_ACTIVITY);
             }
         });
+
+        //Account stuff
+        settings = getSharedPreferences("FamousQuotesAndroid", 0);
+        credential = GoogleAccountCredential.usingAudience(MapsActivity.this,"server:client_id:949477582144-vk2bci1ra92qpf1nmqoog7op4da8vmiv.apps.googleusercontent.com");
+        setAccountName(settings.getString("ACCOUNT_NAME", null));
+        if (credential.getSelectedAccountName() != null) {
+            // Already signed in, begin app!
+            Toast.makeText(getBaseContext(), "Logged in with : " + credential.getSelectedAccountName(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext()),Toast.LENGTH_SHORT).show();
+        } else {
+            // Not signed in, show login window or request an account.
+            chooseAccount();
+        }
+        new GetAcountAsyncTask(MapsActivity.this,credential,settings).execute();
+
     }
 
     @Override
@@ -45,11 +68,30 @@ public class MapsActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
 //        setReportsOnMap();
 
-        if (requestCode == REPORT_ACTIVITY && resultCode == RESULT_OK) {
-            Report reportResult = (Report)data.getParcelableExtra(Report.INTENT_TAG);
-            reports.add(reportResult);
-            onResume();
-//            Toast.makeText(getApplicationContext(), reportResult.getPictureFileName(), Toast.LENGTH_SHORT).show();
+        switch (requestCode) {
+            case REQUEST_ACCOUNT_PICKER:
+                if (data != null && data.getExtras() != null) {
+                    String accountName =
+                            data.getExtras().getString(
+                                    AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        setAccountName(accountName);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("ACCOUNT_NAME", accountName);
+                        editor.commit();
+                        // User is authorized.
+                    }
+                }
+                new GetAcountAsyncTask(MapsActivity.this,credential,settings).execute();
+                break;
+            case REPORT_ACTIVITY:
+                if(resultCode == RESULT_OK){
+                    Report reportResult = (Report)data.getParcelableExtra(Report.INTENT_TAG);
+                    reports.add(reportResult);
+                    onResume();
+//            Toast.
+                }
+                break;
         }
     }
 
@@ -83,7 +125,7 @@ public class MapsActivity extends FragmentActivity {
     }
     
     public void setReportsOnMap(){
-        Toast.makeText(getApplicationContext(), "cocool", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "cocool", Toast.LENGTH_SHORT).show();
         if(map == null)return;
         for(Report report:reports){
             map.addMarker(new MarkerOptions().position(report.getLatlng())).setTitle(report.getPictureFileName());
@@ -133,5 +175,19 @@ public class MapsActivity extends FragmentActivity {
         }catch(RuntimeException e) {
             return;
         }
+    }
+
+    // setAccountName definition
+    private void setAccountName(String accountName) {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("ACCOUNT_NAME", accountName);
+        editor.commit();
+        credential.setSelectedAccountName(accountName);
+        this.accountName = accountName;
+    }
+
+    void chooseAccount() {
+        startActivityForResult(credential.newChooseAccountIntent(),REQUEST_ACCOUNT_PICKER);
+//        Toast.makeText(getApplicationContext(), "fini choose", Toast.LENGTH_SHORT).show();
     }
 }

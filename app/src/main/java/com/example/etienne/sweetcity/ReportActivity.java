@@ -47,6 +47,8 @@ public class ReportActivity extends Activity {
 //        for (File file : newdir.listFiles()) {
 //            Toast.makeText(getApplicationContext(), file.getPath(), Toast.LENGTH_SHORT).show();
 //        }
+        
+        
 
         Button capture = (Button) findViewById(R.id.btnTakePicture);
         capture.setOnClickListener(new View.OnClickListener() {
