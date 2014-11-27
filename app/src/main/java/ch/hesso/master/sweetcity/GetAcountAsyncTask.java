@@ -1,4 +1,4 @@
-package com.example.etienne.sweetcity;
+package ch.hesso.master.sweetcity;
 
 import android.app.ProgressDialog;
 import android.content.Context;

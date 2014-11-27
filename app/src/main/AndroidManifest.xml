@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.etienne.sweetcity" >
+    package="ch.hesso.master.sweetcity" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -26,7 +26,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.example.etienne.sweetcity.MapsActivity"
+            android:name="ch.hesso.master.sweetcity.MapsActivity"
             android:label="@string/title_activity_maps" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,11 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.etienne.sweetcity.ReportActivity"
+            android:name="ch.hesso.master.sweetcity.ReportActivity"
             android:label="@string/title_activity_report" >
         </activity>
         <activity
-            android:name="com.example.etienne.sweetcity.ShowReportActivity"
+            android:name="ch.hesso.master.sweetcity.ShowReportActivity"
             android:label="@string/title_activity_show_report" >
         </activity>
     </application>

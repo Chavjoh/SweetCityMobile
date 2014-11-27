@@ -1,4 +1,4 @@
-package com.example.etienne.sweetcity;
+package ch.hesso.master.sweetcity;
 
 /**
  * https://github.com/fsilvestremorais/android-complex-preferences

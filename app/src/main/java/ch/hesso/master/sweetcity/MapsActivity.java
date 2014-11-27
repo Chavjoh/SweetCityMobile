@@ -1,4 +1,4 @@
-package com.example.etienne.sweetcity;
+package ch.hesso.master.sweetcity;
 
 import android.accounts.AccountManager;
 import android.content.Intent;
@@ -49,17 +49,17 @@ public class MapsActivity extends FragmentActivity {
 
         //Account stuff
         settings = getSharedPreferences("FamousQuotesAndroid", 0);
-        credential = GoogleAccountCredential.usingAudience(MapsActivity.this,"server:client_id:949477582144-vk2bci1ra92qpf1nmqoog7op4da8vmiv.apps.googleusercontent.com");
+        credential = GoogleAccountCredential.usingAudience(MapsActivity.this, "server:client_id:949477582144-vk2bci1ra92qpf1nmqoog7op4da8vmiv.apps.googleusercontent.com");
         setAccountName(settings.getString("ACCOUNT_NAME", null));
         if (credential.getSelectedAccountName() != null) {
             // Already signed in, begin app!
+            new GetAcountAsyncTask(MapsActivity.this,credential,settings).execute();
             Toast.makeText(getBaseContext(), "Logged in with : " + credential.getSelectedAccountName(), Toast.LENGTH_SHORT).show();
             //Toast.makeText(getBaseContext(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext()),Toast.LENGTH_SHORT).show();
         } else {
             // Not signed in, show login window or request an account.
             chooseAccount();
         }
-        new GetAcountAsyncTask(MapsActivity.this,credential,settings).execute();
 
     }
 

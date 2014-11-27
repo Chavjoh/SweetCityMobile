@@ -1,4 +1,4 @@
-package com.example.etienne.sweetcity;
+package ch.hesso.master.sweetcity;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
