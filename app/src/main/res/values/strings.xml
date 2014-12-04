@@ -2,11 +2,15 @@
 <resources>
 
     <string name="app_name">SweetCity</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">SweetCity</string>
     <string name="title_activity_report">ReportActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_show_report">ShowReportActivity</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_welcome">SweetCity</string>
+    <string name="title_activity_register">Register</string>
+    <string name="register">Register :</string>
+    <string name="welcome_loading">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum auctor neque, sit amet luctus ipsum. Ut iaculis vel turpis vel hendrerit. Praesent porta mauris vitae elementum malesuada. Curabitur sed tristique sem. Vestibulum erat enim, dictum eu feugiat in, vestibulum eu lectus.</string>
 
 </resources>

@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
+import ch.hesso.master.sweetcity.task.GetAccountAsyncTask;
+
 
 public class StartActivity extends Activity {
 
@@ -44,7 +46,7 @@ public class StartActivity extends Activity {
         setAccountName(settings.getString("ACCOUNT_NAME", null));
         if (credential.getSelectedAccountName() != null) {
             // Already signed in, begin app!
-            new GetAcountAsyncTask(StartActivity.this,credential,settings).execute();
+            //new GetAccountAsyncTask(StartActivity.this,credential,settings).execute();
             Toast.makeText(getBaseContext(), "Logged in with : " + credential.getSelectedAccountName(), Toast.LENGTH_SHORT).show();
             //Toast.makeText(getBaseContext(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext()),Toast.LENGTH_SHORT).show();
         } else {
@@ -88,7 +90,7 @@ public class StartActivity extends Activity {
                     });
                     dlgAlert.create().show();
                 }
-                new GetAcountAsyncTask(StartActivity.this,credential,settings).execute();
+                //new GetAcountAsyncTask(StartActivity.this,credential,settings).execute();
                 break;
         }
     }
