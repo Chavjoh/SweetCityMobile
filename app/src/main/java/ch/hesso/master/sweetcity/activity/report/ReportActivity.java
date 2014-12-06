@@ -69,7 +69,7 @@ public class ReportActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                filePath = path+(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date()))+".jpg";
+                filePath = path + (new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date())) + ".jpg";
 
                 File fileImage = new File(filePath);
                 try {

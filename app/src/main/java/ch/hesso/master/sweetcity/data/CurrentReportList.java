@@ -47,4 +47,11 @@ public class CurrentReportList {
         new GetReportListAsyncTask(context, callback, AuthUtils.getCredential()).execute();
     }
 
+    public Integer getPosition(Report report) {
+        return reportList.indexOf(report);
+    }
+
+    public Report get(Integer position) {
+        return reportList.get(position);
+    }
 }

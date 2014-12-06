@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ch.hesso.master.sweetcity.Constants;
@@ -26,6 +27,7 @@ import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.activity.report.ReportActivity;
 import ch.hesso.master.sweetcity.activity.report.ShowReportActivity;
+import ch.hesso.master.sweetcity.data.CurrentTagList;
 import ch.hesso.master.sweetcity.model.Report;
 
 public class MapActivity extends FragmentActivity {
@@ -34,11 +36,14 @@ public class MapActivity extends FragmentActivity {
     private LocationManager locationManager;
     private MapLocationListener listener;
     private String provider;
+    private HashMap<Marker, Report> markerReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        markerReport = new HashMap<Marker, Report>();
 
         CurrentReportList.getInstance().load(this, new MapReportCallback(this));
 
@@ -109,7 +114,7 @@ public class MapActivity extends FragmentActivity {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     Intent intent = new Intent(getApplicationContext(), ShowReportActivity.class);
-                    intent.putExtra("image", marker.getTitle());
+                    intent.putExtra("report", CurrentReportList.getInstance().getPosition(markerReport.get(marker)));
                     startActivity(intent);
                             
                     return false;
@@ -144,9 +149,10 @@ public class MapActivity extends FragmentActivity {
             return;
 
         for (Report report:CurrentReportList.getInstance().getList()){
-            MarkerOptions marker = new MarkerOptions();
-            marker.position(new LatLng(report.getLatitude(), report.getLatitude()));
-            map.addMarker(marker).setTitle("Something");
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(report.getLatitude(), report.getLongitude()));
+            Marker marker = map.addMarker(markerOptions);
+            markerReport.put(marker, report);
         }
     }
 

@@ -1,6 +1,8 @@
 package ch.hesso.master.sweetcity.activity.report;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,19 +10,26 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import ch.hesso.master.sweetcity.R;
+import ch.hesso.master.sweetcity.data.CurrentReportList;
+import ch.hesso.master.sweetcity.model.Report;
 
 
 public class ShowReportActivity extends Activity {
+
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_report);
 
-        ImageView imageView = (ImageView)findViewById(R.id.showReport);
-        
-        String filename = getIntent().getStringExtra("image");
-        imageView.setImageURI(Uri.parse(filename));
+        imageView = (ImageView)findViewById(R.id.showReport);
+
+        Integer position = getIntent().getIntExtra("report", 0);
+        Report report = CurrentReportList.getInstance().get(position);
+
+        Bitmap pictureBitmap = BitmapFactory.decodeFile(report.getImage());
+        imageView.setImageBitmap(pictureBitmap);
     }
 
 
