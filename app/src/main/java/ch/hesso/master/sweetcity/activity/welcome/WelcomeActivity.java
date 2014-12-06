@@ -1,22 +1,15 @@
-package ch.hesso.master.sweetcity;
+package ch.hesso.master.sweetcity.activity.welcome;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ch.hesso.master.sweetcity.callback.AccountCallback;
-import ch.hesso.master.sweetcity.callback.AccountCallbackImpl;
-import ch.hesso.master.sweetcity.model.Account;
-import ch.hesso.master.sweetcity.task.GetAccountAsyncTask;
+import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
-import ch.hesso.master.sweetcity.utils.ToastUtils;
 
 
 public class WelcomeActivity extends Activity {

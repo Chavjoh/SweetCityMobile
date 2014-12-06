@@ -12,5 +12,10 @@
     <string name="title_activity_register">Register</string>
     <string name="register">Register :</string>
     <string name="welcome_loading">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum auctor neque, sit amet luctus ipsum. Ut iaculis vel turpis vel hendrerit. Praesent porta mauris vitae elementum malesuada. Curabitur sed tristique sem. Vestibulum erat enim, dictum eu feugiat in, vestibulum eu lectus.</string>
+    <string name="action_add">Add a report</string>
+    <string name="title_activity_tag_selection">TagSelection</string>
+    <string name="submit">Submit</string>
+    <string name="take_picture">Take a picture</string>
+    <string name="tag_selection">Select tags</string>
 
 </resources>

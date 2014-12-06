@@ -33,17 +33,17 @@ public class GetAccountAsyncTask extends AsyncTask<String, Void, Account> {
         Account response = null;
 
         try {
-            Log.d(Constants.PROJECT_NAME, "Calling Account Service");
+            Log.d(Constants.PROJECT_NAME, "[AccountService] Calling ...");
 
             AccountService service = ServiceUtils.getAccountService(credential);
             response = service.accountService().getCurrentAccount().execute();
 
-            Log.d(Constants.PROJECT_NAME, "Response : " + response.getPseudo());
+            Log.d(Constants.PROJECT_NAME, "[AccountService] Response : " + response.getPseudo());
         }
         catch (Exception e) {
-            callback.failed();
+            Log.d("[AccountService] Service unavailable : ", e.getMessage(), e);
 
-            Log.d("Service unavailable : ", e.getMessage(), e);
+            callback.failed();
         }
 
         return response;

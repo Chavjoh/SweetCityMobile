@@ -1,4 +1,4 @@
-package ch.hesso.master.sweetcity;
+package ch.hesso.master.sweetcity.activity.report;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+
+import ch.hesso.master.sweetcity.R;
 
 
 public class ShowReportActivity extends Activity {

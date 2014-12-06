@@ -1,13 +1,10 @@
 package ch.hesso.master.sweetcity.callback;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import ch.hesso.master.sweetcity.Constants;
-import ch.hesso.master.sweetcity.MapsActivity;
-import ch.hesso.master.sweetcity.RegisterActivity;
+import ch.hesso.master.sweetcity.activity.map.MapActivity;
+import ch.hesso.master.sweetcity.activity.welcome.RegisterActivity;
 import ch.hesso.master.sweetcity.model.Account;
 import ch.hesso.master.sweetcity.task.GetAccountAsyncTask;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
@@ -17,6 +14,7 @@ import ch.hesso.master.sweetcity.utils.ToastUtils;
 public class AccountCallbackImpl implements AccountCallback {
 
     public Activity context;
+    public boolean isFailed;
 
     public AccountCallbackImpl(Activity context) {
         this.context = context;
@@ -33,20 +31,22 @@ public class AccountCallbackImpl implements AccountCallback {
 
     @Override
     public void loaded(Account account) {
-        if (account == null) {
-            Intent i = new Intent(context, RegisterActivity.class);
-            context.startActivity(i);
-        } else {
+        if (account != null) {
+            AuthUtils.setAccount(account);
             ToastUtils.show(context, "Logged as " + account.getPseudo());
-
-            Intent i = new Intent(context, MapsActivity.class);
+            Intent i = new Intent(context, MapActivity.class);
+            context.startActivity(i);
+        } else if (isFailed) {
+            DialogUtils.showAndExit(context, "Service unavailable");
+        } else {
+            Intent i = new Intent(context, RegisterActivity.class);
             context.startActivity(i);
         }
     }
 
     @Override
     public void failed() {
-        DialogUtils.show(context, "Service unavailable");
+        isFailed = true;
     }
 
     public void setContext(Activity context) {

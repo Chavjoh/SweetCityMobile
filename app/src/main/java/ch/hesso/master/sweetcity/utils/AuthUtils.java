@@ -9,6 +9,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.callback.AccountCallback;
 import ch.hesso.master.sweetcity.callback.AccountCallbackImpl;
+import ch.hesso.master.sweetcity.model.Account;
 
 public class AuthUtils {
 
@@ -17,6 +18,7 @@ public class AuthUtils {
 
     private static AuthUtils instance;
     private static GoogleAccountCredential credential;
+    private static Account account;
 
     private AccountCallbackImpl callbackAccount;
     private SharedPreferences settings;
@@ -84,5 +86,13 @@ public class AuthUtils {
 
     public static boolean isInstantiate() {
         return instance != null;
+    }
+
+    public static void setAccount(Account newAccount) {
+        account = newAccount;
+    }
+
+    public static Account getAccount() {
+        return account;
     }
 }

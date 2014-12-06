@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ch.hesso.master.sweetcity.activity.welcome.WelcomeActivity" >
+    tools:context="ch.hesso.master.sweetcity.activity.tag.TagSelectionActivity" >
 
 </menu>

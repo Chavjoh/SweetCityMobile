@@ -1,9 +1,11 @@
-package ch.hesso.master.sweetcity;
+package ch.hesso.master.sweetcity.activity.welcome;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import ch.hesso.master.sweetcity.R;
 
 
 public class RegisterActivity extends Activity {
