@@ -8,8 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ch.hesso.master.sweetcity.R;
+import ch.hesso.master.sweetcity.activity.map.MapActivity;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
+import ch.hesso.master.sweetcity.utils.ProjectUtils;
 
 
 public class WelcomeActivity extends Activity {
@@ -26,7 +28,11 @@ public class WelcomeActivity extends Activity {
 
         // Check account, ask to choose one or/and register if necessary
         if (!DialogUtils.isDialogShown()) {
-            AuthUtils.getInstance(this).checkAccount();
+            if (AuthUtils.isLogged()) {
+                ProjectUtils.startActivityWithoutBackStack(this, MapActivity.class);
+            } else {
+                AuthUtils.getInstance(this).checkAccount();
+            }
         }
     }
 

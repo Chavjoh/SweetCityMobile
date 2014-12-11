@@ -9,6 +9,7 @@ import ch.hesso.master.sweetcity.model.Account;
 import ch.hesso.master.sweetcity.task.GetAccountAsyncTask;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
+import ch.hesso.master.sweetcity.utils.ProjectUtils;
 import ch.hesso.master.sweetcity.utils.ToastUtils;
 
 public class AccountCallbackImpl implements AccountCallback {
@@ -22,11 +23,7 @@ public class AccountCallbackImpl implements AccountCallback {
 
     @Override
     public void selected() {
-        new GetAccountAsyncTask(
-                context,
-                this,
-                AuthUtils.getCredential()
-        ).execute();
+        new GetAccountAsyncTask(context, this, AuthUtils.getCredential()).execute();
     }
 
     @Override
@@ -34,13 +31,12 @@ public class AccountCallbackImpl implements AccountCallback {
         if (account != null) {
             AuthUtils.setAccount(account);
             ToastUtils.show(context, "Logged as " + account.getPseudo());
-            Intent i = new Intent(context, MapActivity.class);
-            context.startActivity(i);
+            ProjectUtils.startActivityWithoutBackStack(context, MapActivity.class);
         } else if (isFailed) {
             DialogUtils.showAndExit(context, "Service unavailable");
         } else {
-            Intent i = new Intent(context, RegisterActivity.class);
-            context.startActivity(i);
+            Intent intent = new Intent(context, RegisterActivity.class);
+            context.startActivity(intent);
         }
     }
 
