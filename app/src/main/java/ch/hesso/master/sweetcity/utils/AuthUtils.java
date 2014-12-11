@@ -33,7 +33,7 @@ public class AuthUtils {
         return instance;
     }
 
-    public AuthUtils(Activity context) {
+    private AuthUtils(Activity context) {
         this.callbackAccount = new AccountCallbackImpl(context);
         this.settings = context.getSharedPreferences(Constants.PROJECT_NAME, 0);
         this.setContext(context);
@@ -42,10 +42,10 @@ public class AuthUtils {
     }
 
     public void checkAccount() {
-        setAccountName(settings.getString(KEY_ACCOUNT_NAME, null));
+        this.setAccountName(this.settings.getString(KEY_ACCOUNT_NAME, null));
 
         if (credential.getSelectedAccountName() == null) {
-            chooseAccount();
+            this.chooseAccount();
         } else {
             //Toast.makeText(context, "Logged in with : " + credential.getSelectedAccountName(), Toast.LENGTH_SHORT).show();
         }
@@ -64,7 +64,7 @@ public class AuthUtils {
     }
 
     private void chooseAccount() {
-        context.startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+        this.context.startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
     }
 
     public AccountCallback getCallback() {
