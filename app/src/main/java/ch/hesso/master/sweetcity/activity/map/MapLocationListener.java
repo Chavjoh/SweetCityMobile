@@ -19,10 +19,7 @@ public class MapLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        // Getting latitude of the current location
         double latitude = location.getLatitude();
-
-        // Getting longitude of the current location
         double longitude = location.getLongitude();
 
         // Creating a LatLng object for the current location

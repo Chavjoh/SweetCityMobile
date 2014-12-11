@@ -2,7 +2,6 @@ package ch.hesso.master.sweetcity.utils;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
@@ -25,7 +24,7 @@ public class AuthUtils {
     private Activity context;
 
     public static AuthUtils getInstance(Activity context) {
-        if (instance == null) {
+        if (!isInstantiate()) {
             instance = new AuthUtils(context);
         } else {
             instance.setContext(context);
@@ -41,13 +40,16 @@ public class AuthUtils {
         credential = GoogleAccountCredential.usingAudience(context, Constants.AUDIENCE);
     }
 
+    public void setContext(Activity context) {
+        this.context = context;
+        this.callbackAccount.setContext(context);
+    }
+
     public void checkAccount() {
-        this.setAccountName(this.settings.getString(KEY_ACCOUNT_NAME, null));
+        setAccountName(getAccountName());
 
         if (credential.getSelectedAccountName() == null) {
-            this.chooseAccount();
-        } else {
-            //Toast.makeText(context, "Logged in with : " + credential.getSelectedAccountName(), Toast.LENGTH_SHORT).show();
+            chooseAccount();
         }
     }
 
@@ -75,11 +77,6 @@ public class AuthUtils {
         return settings.getString(KEY_ACCOUNT_NAME, null);
     }
 
-    public void setContext(Activity context) {
-        this.context = context;
-        this.callbackAccount.setContext(context);
-    }
-
     public static GoogleAccountCredential getCredential() {
         return credential;
     }
@@ -94,5 +91,9 @@ public class AuthUtils {
 
     public static Account getAccount() {
         return account;
+    }
+
+    public static boolean isLogged() {
+        return account != null;
     }
 }

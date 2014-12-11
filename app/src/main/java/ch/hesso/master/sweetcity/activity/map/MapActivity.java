@@ -7,10 +7,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -20,14 +20,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.hesso.master.sweetcity.Constants;
-import ch.hesso.master.sweetcity.activity.IntentTag;
-import ch.hesso.master.sweetcity.callback.ReportCallbackImpl;
-import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.R;
+import ch.hesso.master.sweetcity.activity.IntentTag;
 import ch.hesso.master.sweetcity.activity.report.ReportActivity;
 import ch.hesso.master.sweetcity.activity.report.ShowReportActivity;
-import ch.hesso.master.sweetcity.data.CurrentTagList;
+import ch.hesso.master.sweetcity.callback.ReportCallbackImpl;
+import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
 
 public class MapActivity extends FragmentActivity {
@@ -56,6 +54,7 @@ public class MapActivity extends FragmentActivity {
 
         showReports();
         configureMap();
+        showCurrentPosition();
 
         locationManager.requestLocationUpdates(provider, 15000, 0, listener);
     }
@@ -75,7 +74,7 @@ public class MapActivity extends FragmentActivity {
 
     @Override
     public void onPause() {
-        super.onPause();  // Always call the superclass method first
+        super.onPause();
 
         locationManager.removeUpdates(listener);
     }
@@ -120,27 +119,6 @@ public class MapActivity extends FragmentActivity {
                     return false;
                 }
             });
-
-            // Check if we were successful in obtaining the map.
-            if (map != null) {
-                // Enabling MyLocation Layer of Google Map
-                map.setMyLocationEnabled(true);
-
-                // Getting LocationManager object from System Service LOCATION_SERVICE
-                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-                // Getting the name of the best provider
-                provider = locationManager.getBestProvider(new Criteria(), true);
-
-                // Getting Current Location
-                Location location = locationManager.getLastKnownLocation(provider);
-
-                listener = new MapLocationListener(map);
-
-                if (location != null){
-                    listener.onLocationChanged(location);
-                }
-            }
         }
     }
     
@@ -153,6 +131,24 @@ public class MapActivity extends FragmentActivity {
             markerOptions.position(new LatLng(report.getLatitude(), report.getLongitude()));
             Marker marker = map.addMarker(markerOptions);
             markerReport.put(marker, report);
+        }
+    }
+
+    public void showCurrentPosition() {
+        if (map != null) {
+            // Enabling MyLocation Layer of Google Map
+            map.setMyLocationEnabled(true);
+
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            provider = locationManager.getBestProvider(new Criteria(), true);
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            listener = new MapLocationListener(map);
+
+            if (location != null) {
+                listener.onLocationChanged(location);
+                map.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
         }
     }
 

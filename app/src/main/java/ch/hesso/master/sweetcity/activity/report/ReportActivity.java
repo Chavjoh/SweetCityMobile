@@ -91,7 +91,6 @@ public class ReportActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Log.d(Constants.PROJECT_NAME, "Tag Selection");
                 Intent tagIntent = new Intent(getApplicationContext(), TagSelectionActivity.class);
                 startActivityForResult(tagIntent, IntentTag.TAG_SELECTION);
             }
@@ -103,8 +102,6 @@ public class ReportActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Log.d(Constants.PROJECT_NAME, "Submit");
-
                 LocationManager locationManager = (LocationManager) ReportActivity.this.getSystemService(LOCATION_SERVICE);
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
