@@ -10,6 +10,12 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
+    }
+
+    dexOptions {
+        javaMaxHeapSize "6g"
     }
 
     buildTypes {
@@ -22,7 +28,6 @@ android {
     packagingOptions {
         exclude 'META-INF/services/org.trimou.engine.config.ConfigurationExtension'
     }
-    
 }
 
 repositories {
@@ -40,6 +45,12 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.trimou:trimou-extension-gson:1.7.0.Final'
     compile 'com.pnikosis:materialish-progress:1.0'
+    compile('com.amazonaws:aws-android-sdk-core:2.1.5') {
+        // Provided by Android SDK.
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
+    compile 'com.amazonaws:aws-android-sdk-s3:2.1.5'
+
 
     // Play Services will validate the application prior to allowing OAuth2 access
     compile(group: 'com.google.android.gms', name: 'play-services', version: '4.0.30')
@@ -56,22 +67,19 @@ dependencies {
     // Add the Android extensions for the Google API client library.
     // This will automatically include play services as long as you
     // have download that library from the Android SDK manager.
-    compile(group: 'com.google.api-client', name: 'google-api-client-android',
-            version: '1.18.0-rc')
-    compile(group: 'com.google.http-client', name: 'google-http-client-gson',
-            version: '1.18.0-rc')
+    compile(group: 'com.google.api-client', name: 'google-api-client-android', version: '1.18.0-rc')
+    compile(group: 'com.google.http-client', name: 'google-http-client-gson', version: '1.18.0-rc')
 
     // The following client libraries make HTTP/JSON on Android easier.
     // Android extensions for Google HTTP Client.
-    compile(group: 'com.google.http-client', name: 'google-http-client-android',
-            version: '1.18.0-rc') {
+    compile(group: 'com.google.http-client', name: 'google-http-client-android', version: '1.18.0-rc') {
         exclude (group: 'com.google.android', module: 'android')
         exclude (group: 'org.apache.httpcomponents', module: 'httpclient')
     }
 
     // This is used by the Google HTTP client library.
     compile(group: 'com.google.guava', name: 'guava', version: '14.0.+')
-
+    compile 'com.android.support:multidex:1.0.0'
 }
 
 

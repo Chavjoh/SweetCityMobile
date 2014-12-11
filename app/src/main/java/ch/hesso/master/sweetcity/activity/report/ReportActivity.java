@@ -26,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ch.hesso.master.sweetcity.Constants;
@@ -44,7 +43,7 @@ public class ReportActivity extends Activity {
 
     private TextView tagResume;
     private ImageView imageView;
-    private String filePath;
+    private String localPicturePath;
     private HashMap<Integer, Tag> tagList;
 
     @Override
@@ -69,9 +68,9 @@ public class ReportActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                filePath = path + (new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date())) + ".jpg";
+                localPicturePath = path + (new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date())) + ".jpg";
 
-                File fileImage = new File(filePath);
+                File fileImage = new File(localPicturePath);
                 try {
                     fileImage.createNewFile();
                 } catch (IOException e) {
@@ -110,7 +109,6 @@ public class ReportActivity extends Activity {
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 Report newReport = new Report();
-                newReport.setImage(filePath);
                 newReport.setLatitude((float) location.getLatitude());
                 newReport.setLongitude((float) location.getLongitude());
                 newReport.setSubmitDate(new DateTime(new Date()));
@@ -118,7 +116,7 @@ public class ReportActivity extends Activity {
                 newReport.setListTag(new ArrayList(tagList.values()));
 
                 ReportCallbackImpl callback = new ReportCallbackImpl(ReportActivity.this);
-                new AddReportAsyncTask(ReportActivity.this, callback, AuthUtils.getCredential(), newReport).execute();
+                new AddReportAsyncTask(ReportActivity.this, callback, AuthUtils.getCredential(), newReport, localPicturePath).execute();
             }
 
         });
@@ -158,8 +156,8 @@ public class ReportActivity extends Activity {
     }
 
     public void showPicture() {
-        if (filePath != null) {
-            Bitmap pictureBitmap = BitmapFactory.decodeFile(filePath);
+        if (localPicturePath != null) {
+            Bitmap pictureBitmap = BitmapFactory.decodeFile(localPicturePath);
             imageView.setImageBitmap(pictureBitmap);
         }
     }
@@ -181,18 +179,18 @@ public class ReportActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putIntegerArrayList("tagList", new ArrayList<Integer>(tagList.keySet()));
-        savedInstanceState.putString("filePath", filePath);
+        savedInstanceState.putString("localPicturePath", localPicturePath);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        filePath = savedInstanceState.getString("filePath");
+        localPicturePath = savedInstanceState.getString("localPicturePath");
         ArrayList<Integer> positionList = savedInstanceState.getIntegerArrayList("tagList");
         CurrentTagList.getInstance().putAllFromPositions(tagList, positionList);
 
-        Log.d(Constants.PROJECT_NAME, "filePath " + filePath);
+        Log.d(Constants.PROJECT_NAME, "localPicturePath " + localPicturePath);
         Log.d(Constants.PROJECT_NAME, "positionList " + positionList.toString());
 
         showTagList();
