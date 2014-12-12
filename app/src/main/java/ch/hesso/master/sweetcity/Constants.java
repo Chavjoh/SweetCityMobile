@@ -18,4 +18,7 @@ public class Constants {
 
     public static final HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
 
+    public static final String AWS_ACCESS_KEY = "AKIAIRF62L4JQVKNBGTA";
+    public static final String AWS_SECRET_ACCESS_KEY = "";
+
 }

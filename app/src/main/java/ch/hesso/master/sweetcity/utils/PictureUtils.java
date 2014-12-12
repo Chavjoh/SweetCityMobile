@@ -14,7 +14,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,7 +21,7 @@ import ch.hesso.master.sweetcity.Constants;
 
 public class PictureUtils {
 
-    private static AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAIATVJQKE6HKWZD4A", "+ETAEkTjx479guBASDUvnxLj4KqMEHRzJvyzk2X5");
+    private static AWSCredentials awsCredentials = new BasicAWSCredentials(Constants.AWS_ACCESS_KEY, Constants.AWS_SECRET_ACCESS_KEY);
     private final static String END_POINT = "s3-eu-west-1.amazonaws.com"; // See http://docs.aws.amazon.com/general/latest/gr/rande.html .
     private final static String BUCKET_NAME = "sweet-city";
 
