@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
+import ch.hesso.master.sweetcity.utils.PictureUtils;
 
 
 public class ShowReportActivity extends Activity {
@@ -28,10 +29,9 @@ public class ShowReportActivity extends Activity {
         Integer position = getIntent().getIntExtra("report", 0);
         Report report = CurrentReportList.getInstance().get(position);
 
-        Bitmap pictureBitmap = BitmapFactory.decodeFile(report.getImage());
+        Bitmap pictureBitmap = BitmapFactory.decodeStream(PictureUtils.getPicture(PictureUtils.Key.fromString(report.getImage())));
         imageView.setImageBitmap(pictureBitmap);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
