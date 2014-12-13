@@ -7,19 +7,21 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="ch.hesso.master.sweetcity.activity.welcome.WelcomeActivity">
+    tools:context="ch.hesso.master.sweetcity.activity.welcome.WelcomeActivity"
+    android:gravity="center_vertical">
 
     <TextView
         android:text="@string/welcome_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_marginTop="30dp"
         android:layout_below="@+id/logoView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:layout_marginTop="30dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -28,7 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/splash" />
 
     <com.pnikosis.materialishprogress.ProgressWheel
         android:id="@+id/progress_wheel"
@@ -38,6 +40,6 @@
         wheel:progressIndeterminate="true"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="95dp" />
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>

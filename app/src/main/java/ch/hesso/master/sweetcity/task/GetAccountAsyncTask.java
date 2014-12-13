@@ -38,7 +38,7 @@ public class GetAccountAsyncTask extends AsyncTask<String, Void, Account> {
             AccountService service = ServiceUtils.getAccountService(credential);
             response = service.accountService().getCurrentAccount().execute();
 
-            Log.d(Constants.PROJECT_NAME, "[AccountService] Response : " + response.getPseudo());
+            Log.d(Constants.PROJECT_NAME, "[AccountService] Response received");
         }
         catch (Exception e) {
             Log.d("[AccountService] Service unavailable : ", e.getMessage(), e);

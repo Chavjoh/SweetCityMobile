@@ -1,6 +1,7 @@
 package ch.hesso.master.sweetcity.callback;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 
 import ch.hesso.master.sweetcity.activity.map.MapActivity;
@@ -14,6 +15,7 @@ import ch.hesso.master.sweetcity.utils.ToastUtils;
 
 public class AccountCallbackImpl implements AccountCallback {
 
+    protected ProgressDialog progressDialog;
     public Activity context;
     public boolean isFailed;
 
@@ -22,7 +24,26 @@ public class AccountCallbackImpl implements AccountCallback {
     }
 
     @Override
+    public void beforeRegistration() {
+        isFailed = false;
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Registering ...");
+        progressDialog.show();
+    }
+
+    @Override
+    public void registered() {
+        if (isFailed) {
+            progressDialog.dismiss();
+            DialogUtils.show(context, "Service unavailable");
+        } else {
+            context.finish();
+        }
+    }
+
+    @Override
     public void selected() {
+        isFailed = false;
         new GetAccountAsyncTask(context, this, AuthUtils.getCredential()).execute();
     }
 
