@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="android:Theme.Material.Light">
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="android:colorPrimary">#E53935</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="android:colorPrimaryDark">#B71C1C</item>
+
+        <item name="android:navigationBarColor">#B71C1C</item>
+
+        <item name="android:textColorPrimary">#FFFFFF</item>
+
+        <item name="android:colorButtonNormal">#B71C1C</item>
+
     </style>
+
 </resources>

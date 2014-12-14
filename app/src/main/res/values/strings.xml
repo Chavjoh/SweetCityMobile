@@ -13,7 +13,7 @@
     <string name="register">Register :</string>
     <string name="welcome_loading">Please wait during server authentication</string>
     <string name="action_add">Add a report</string>
-    <string name="title_activity_tag_selection">TagSelection</string>
+    <string name="title_activity_tag_selection">Tag selection</string>
     <string name="submit">Submit</string>
     <string name="take_picture">Take a picture</string>
     <string name="tag_selection">Select tags</string>

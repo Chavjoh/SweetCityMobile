@@ -1,6 +1,7 @@
 package ch.hesso.master.sweetcity.activity.tag;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class TagAdapter extends ArrayAdapter<Tag> {
 
         CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(android.R.id.text1);
         checkedTextView.setText(tagList.get(position).getName());
+        checkedTextView.setTextColor(Color.BLACK);
 
         return rowView;
     }

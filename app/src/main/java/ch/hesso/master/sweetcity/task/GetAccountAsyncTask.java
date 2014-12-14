@@ -33,7 +33,7 @@ public class GetAccountAsyncTask extends AsyncTask<String, Void, Account> {
         Account response = null;
 
         try {
-            Log.d(Constants.PROJECT_NAME, "[AccountService] Calling ...");
+            Log.d(Constants.PROJECT_NAME, "[AccountService] Calling for account ...");
 
             AccountService service = ServiceUtils.getAccountService(credential);
             response = service.accountService().getCurrentAccount().execute();

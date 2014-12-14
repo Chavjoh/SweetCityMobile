@@ -17,34 +17,34 @@ import ch.hesso.master.sweetcity.utils.DialogUtils;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
 
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends Activity implements View.OnClickListener {
+
+    private EditText login;
+    private Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText login = (EditText) findViewById(R.id.et_register);
+        login = LayoutUtils.findView(this, R.id.et_register);
+        submit = LayoutUtils.findView(this, R.id.btn_register);
+        submit.setOnClickListener(this);
+    }
 
-        Button submit = (Button) findViewById(R.id.btn_register);
-        submit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (LayoutUtils.isEmpty(login)) {
-                    DialogUtils.show(RegisterActivity.this, "Please enter a login name to register");
-                } else {
-                    AccountCallback callback = new AccountCallbackImpl(RegisterActivity.this);
-                    new RegisterAsyncTask(
-                            RegisterActivity.this,
-                            callback,
-                            AuthUtils.getCredential(),
-                            login.getText().toString()
-                    ).execute();
-                }
-            }
-
-        });
+    @Override
+    public void onClick(View v) {
+        if (LayoutUtils.isEmpty(login)) {
+            DialogUtils.show(RegisterActivity.this, "Please enter a login name to register");
+        } else {
+            AccountCallback callback = new AccountCallbackImpl(RegisterActivity.this);
+            new RegisterAsyncTask(
+                    RegisterActivity.this,
+                    callback,
+                    AuthUtils.getCredential(),
+                    login.getText().toString()
+            ).execute();
+        }
     }
 
     @Override
