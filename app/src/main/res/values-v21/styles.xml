@@ -6,7 +6,8 @@
         <!-- colorPrimary is used for the default action bar background -->
         <item name="android:colorPrimary">#E53935</item>
 
-        <!-- colorPrimaryDark is used for the status bar -->
+        <!-- android:textColorPrimary is the  color of the title text
+             in the Toolbar, in the Theme.AppCompat theme:  -->
         <item name="android:colorPrimaryDark">#B71C1C</item>
 
         <item name="android:navigationBarColor">#B71C1C</item>
@@ -15,6 +16,15 @@
 
         <item name="android:colorButtonNormal">#B71C1C</item>
 
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+
+        <item name="android:panelFullBackground">#B71C1C</item>
+
+    </style>
+
+    <!-- Background color for Action Bar overflow menu -->
+    <style name="PopupMenu" parent="android:Widget.Material.ListPopupWindow">
+        <item name="android:popupBackground">#B71C1C</item>
     </style>
 
 </resources>

@@ -60,4 +60,7 @@ public class CurrentTagList {
         new GetTagListAsyncTask(context, callback, AuthUtils.getCredential());
     }
 
+    public boolean isEmpty() {
+        return tagList.isEmpty();
+    }
 }

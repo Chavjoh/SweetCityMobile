@@ -46,8 +46,23 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
     }
 
     private void loadTagList() {
-        TagCallbackActivity callback = new TagCallbackActivity(this);
-        new GetTagListAsyncTask(this, callback, AuthUtils.getCredential()).execute();
+        if (CurrentTagList.getInstance().isEmpty()) {
+            TagCallbackActivity callback = new TagCallbackActivity(this);
+            new GetTagListAsyncTask(this, callback, AuthUtils.getCredential()).execute();
+        } else {
+            showList();
+        }
+    }
+
+    private void showList(List<Tag> list) {
+        adapter = new TagAdapter(this, list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void showList() {
+        showList(CurrentTagList.getInstance().getList());
     }
 
     @Override
@@ -92,11 +107,7 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
         @Override
         public void loaded(List<Tag> list) {
             super.loaded(list);
-
-            adapter = new TagAdapter(context, list);
-            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            listView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            showList(list);
         }
     }
 }
