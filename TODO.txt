@@ -1,1 +1,0 @@
-* Les photos uploadées sont trop grosses (entre 1.2 et 2.5 Mo avec le Nexus 4).
