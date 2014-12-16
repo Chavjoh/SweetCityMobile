@@ -5,38 +5,36 @@ import android.app.ProgressDialog;
 
 import java.util.List;
 
-import ch.hesso.master.sweetcity.data.CurrentTagList;
-import ch.hesso.master.sweetcity.model.Tag;
+import ch.hesso.master.sweetcity.data.CurrentRewardList;
+import ch.hesso.master.sweetcity.model.Reward;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
 
-public class TagCallbackImpl implements TagCallback {
+public class RewardCallbackImpl implements RewardCallback {
 
     protected Activity context;
     protected ProgressDialog progressDialog;
 
-    public TagCallbackImpl(Activity context) {
+    public RewardCallbackImpl(Activity context) {
         this.context = context;
     }
 
     @Override
     public void beforeLoading() {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Retrieving tag list ...");
-        progressDialog.show();
+        progressDialog = DialogUtils.showProgressDialog(context, "Retrieving reward list ...");
     }
 
     @Override
-    public void loaded(List<Tag> list) {
-        progressDialog.dismiss();
+    public void loaded(List<Reward> list) {
+        DialogUtils.hideProgressDialog(progressDialog);
 
         if (list != null) {
-            CurrentTagList.getInstance().setList(list);
+            CurrentRewardList.getInstance().setList(list);
         }
     }
 
     @Override
     public void failed() {
-        progressDialog.dismiss();
+        DialogUtils.hideProgressDialog(progressDialog);
         DialogUtils.showAndExit(context, "Service unavailable");
     }
 }

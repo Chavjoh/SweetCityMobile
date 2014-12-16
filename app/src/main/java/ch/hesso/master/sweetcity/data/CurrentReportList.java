@@ -40,7 +40,7 @@ public class CurrentReportList {
 
     public void load(Activity context) {
         ReportCallback callback = new ReportCallbackImpl(context);
-        new GetReportListAsyncTask(context, callback, AuthUtils.getCredential()).execute();
+        load(context, callback);
     }
 
     public void load(Activity context, ReportCallback callback) {

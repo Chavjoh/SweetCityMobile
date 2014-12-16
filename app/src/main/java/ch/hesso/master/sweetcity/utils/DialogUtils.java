@@ -2,6 +2,8 @@ package ch.hesso.master.sweetcity.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.SpannableString;
@@ -70,5 +72,19 @@ public class DialogUtils {
                 context.startActivity(intent);
             }
         };
+    }
+
+    public static ProgressDialog showProgressDialog(Context context, String message) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
+        return progressDialog;
+    }
+
+    public static void hideProgressDialog(ProgressDialog progressDialog) {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

@@ -12,12 +12,14 @@
     <string name="title_activity_register">Register</string>
     <string name="register">Register :</string>
     <string name="welcome_loading">Please wait during server authentication</string>
-    <string name="action_add">Add a report</string>
+    <string name="action_add_report">Add a report</string>
     <string name="title_activity_tag_selection">Tag selection</string>
     <string name="submit">Submit</string>
     <string name="take_picture">Take a picture</string>
     <string name="tag_selection">Select tags</string>
     <string name="register_description">Create a SweetCity account offer you the chance to participate to your city improvement. Create and vote for reports, earn experience and rewards to be the best contributor ! To register, please enter a login below : </string>
     <string name="register_button">Register</string>
+    <string name="title_activity_reward">Rewards</string>
+    <string name="action_show_reward">Show rewards</string>
 
 </resources>

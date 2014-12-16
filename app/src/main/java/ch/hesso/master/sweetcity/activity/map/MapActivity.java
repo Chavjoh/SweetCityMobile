@@ -24,6 +24,8 @@ import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.activity.IntentTag;
 import ch.hesso.master.sweetcity.activity.report.ReportActivity;
 import ch.hesso.master.sweetcity.activity.report.ShowReportActivity;
+import ch.hesso.master.sweetcity.activity.reward.RewardActivity;
+import ch.hesso.master.sweetcity.activity.reward.RewardAdapter;
 import ch.hesso.master.sweetcity.callback.ReportCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
@@ -91,16 +93,29 @@ public class MapActivity extends FragmentActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_add) {
-            try {
-                Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivityForResult(intent, IntentTag.DO_REPORTS);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
+
+        switch (item.getItemId()) {
+            case R.id.action_add_report:
+                try {
+                    Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+                    startActivityForResult(intent, IntentTag.DO_REPORTS);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+
+            case R.id.action_show_reward:
+                try {
+                    Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
     
