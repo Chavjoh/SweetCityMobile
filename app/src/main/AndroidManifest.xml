@@ -25,18 +25,10 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activity.map.MapActivity"
-            android:label="@string/title_activity_maps" >
-        </activity>
-        <activity
-            android:name=".activity.report.ReportActivity"
-            android:label="@string/title_activity_report" >
-        </activity>
-        <activity
-            android:name=".activity.report.ShowReportActivity"
-            android:label="@string/title_activity_show_report" >
-        </activity>
+        <!-- ========== -->
+        <!--  ACTIVITY  -->
+        <!-- ========== -->
+
         <activity
             android:name=".activity.welcome.WelcomeActivity"
             android:label="@string/title_activity_welcome"
@@ -47,18 +39,57 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.map.MapActivity"
+            android:label="@string/title_activity_maps" >
+        </activity>
+
+        <activity
+            android:name=".activity.report.ReportActivity"
+            android:label="@string/title_activity_report"
+            android:parentActivityName=".activity.map.MapActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.map.MapActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.report.ShowReportActivity"
+            android:label="@string/title_activity_show_report"
+            android:parentActivityName=".activity.map.MapActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.map.MapActivity" />
+        </activity>
+
         <activity
             android:name=".activity.welcome.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
+
         <activity
             android:name=".activity.tag.TagSelectionActivity"
-            android:label="@string/title_activity_tag_selection" >
+            android:label="@string/title_activity_tag_selection"
+            android:parentActivityName=".activity.report.ReportActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.report.ReportActivity" />
         </activity>
+
         <activity
             android:name=".activity.reward.RewardActivity"
-            android:label="@string/title_activity_reward" >
+            android:label="@string/title_activity_reward"
+            android:parentActivityName=".activity.map.MapActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.map.MapActivity" />
         </activity>
+
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package ch.hesso.master.sweetcity.activity.tag;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,8 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_selection);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         findViews();
         loadList();
@@ -90,6 +93,13 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
