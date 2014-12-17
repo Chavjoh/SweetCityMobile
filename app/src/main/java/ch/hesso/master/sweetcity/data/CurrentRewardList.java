@@ -24,7 +24,7 @@ public class CurrentRewardList {
         return instance;
     }
 
-    public CurrentRewardList() {
+    private CurrentRewardList() {
         this.rewardList = new ArrayList<Reward>();
     }
 

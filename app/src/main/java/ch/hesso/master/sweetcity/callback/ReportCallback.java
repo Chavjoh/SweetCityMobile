@@ -7,6 +7,11 @@ import ch.hesso.master.sweetcity.model.Report;
 public interface ReportCallback {
 
     /**
+     * Executed before report list loading
+     */
+    void beforeLoading();
+
+    /**
      * Report list was loaded from the server
      * @param list
      */

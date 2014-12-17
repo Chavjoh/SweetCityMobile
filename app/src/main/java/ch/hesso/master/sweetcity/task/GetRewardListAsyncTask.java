@@ -8,12 +8,9 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.callback.RewardCallback;
-import ch.hesso.master.sweetcity.callback.TagCallback;
 import ch.hesso.master.sweetcity.model.RewardCollection;
-import ch.hesso.master.sweetcity.model.TagCollection;
 import ch.hesso.master.sweetcity.utils.ServiceUtils;
 import ch.hesso.master.sweetcity.webservice.reward.RewardService;
-import ch.hesso.master.sweetcity.webservice.tag.TagService;
 
 public class GetRewardListAsyncTask extends AsyncTask<String, Void, RewardCollection> {
 

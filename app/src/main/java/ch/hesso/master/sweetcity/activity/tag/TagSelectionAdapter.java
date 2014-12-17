@@ -1,7 +1,6 @@
 package ch.hesso.master.sweetcity.activity.tag;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.CheckedTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.model.Tag;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
 
@@ -40,8 +38,8 @@ public class TagSelectionAdapter extends ArrayAdapter<Tag> {
 
         // Reuse views
         if (rowView == null) {
-            LayoutInflater inflater = context.getLayoutInflater();
-            rowView = inflater.inflate(LAYOUT, null);
+            LayoutInflater inflater = LayoutUtils.getInflater(context);
+            rowView = inflater.inflate(LAYOUT, parent, false);
 
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.ctvTag = LayoutUtils.findView(rowView, android.R.id.text1);

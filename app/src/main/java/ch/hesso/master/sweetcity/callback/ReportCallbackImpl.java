@@ -11,7 +11,7 @@ import ch.hesso.master.sweetcity.utils.DialogUtils;
 
 public class ReportCallbackImpl implements ReportCallback {
 
-    public Activity context;
+    protected Activity context;
     protected ProgressDialog progressDialog;
     protected boolean isFailed;
 
@@ -21,32 +21,38 @@ public class ReportCallbackImpl implements ReportCallback {
     }
 
     @Override
+    public void beforeLoading() {
+        this.isFailed = false;
+    }
+
+    @Override
     public void loaded(List<Report> list) {
-        if (list != null) {
+        if (this.isFailed) {
+            DialogUtils.show(this.context, "Service unavailable");
+        } else if (list != null) {
             CurrentReportList.getInstance().setList(list);
         }
     }
 
     @Override
     public void failed() {
-        isFailed = true;
-        DialogUtils.show(context, "Service unavailable");
+        this.isFailed = true;
     }
 
     @Override
     public void beforeAdding() {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Adding report ...");
-        progressDialog.show();
-        isFailed = false;
+        this.progressDialog = new ProgressDialog(context);
+        this.progressDialog.setMessage("Adding report ...");
+        this.progressDialog.show();
+        this.isFailed = false;
     }
 
     @Override
     public void afterAdding() {
-        progressDialog.dismiss();
+        this.progressDialog.dismiss();
 
-        if (!isFailed) {
-            context.finish();
+        if (!this.isFailed) {
+            this.context.finish();
         }
     }
 

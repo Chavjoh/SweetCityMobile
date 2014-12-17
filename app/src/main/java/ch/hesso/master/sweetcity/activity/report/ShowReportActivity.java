@@ -3,7 +3,6 @@ package ch.hesso.master.sweetcity.activity.report;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
 import ch.hesso.master.sweetcity.utils.PictureUtils;
-
 
 public class ShowReportActivity extends Activity {
 

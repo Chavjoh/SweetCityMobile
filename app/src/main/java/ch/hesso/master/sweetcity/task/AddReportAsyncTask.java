@@ -8,13 +8,11 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.callback.ReportCallback;
-import ch.hesso.master.sweetcity.callback.TagCallback;
 import ch.hesso.master.sweetcity.model.Report;
 import ch.hesso.master.sweetcity.model.TagCollection;
 import ch.hesso.master.sweetcity.utils.PictureUtils;
 import ch.hesso.master.sweetcity.utils.ServiceUtils;
 import ch.hesso.master.sweetcity.webservice.report.ReportService;
-import ch.hesso.master.sweetcity.webservice.tag.TagService;
 
 public class AddReportAsyncTask extends AsyncTask<String, Void, Void> {
 

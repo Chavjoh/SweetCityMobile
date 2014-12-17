@@ -7,12 +7,9 @@ import android.util.Log;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import ch.hesso.master.sweetcity.Constants;
-import ch.hesso.master.sweetcity.callback.ReportCallback;
 import ch.hesso.master.sweetcity.callback.TagCallback;
-import ch.hesso.master.sweetcity.model.ReportCollection;
 import ch.hesso.master.sweetcity.model.TagCollection;
 import ch.hesso.master.sweetcity.utils.ServiceUtils;
-import ch.hesso.master.sweetcity.webservice.report.ReportService;
 import ch.hesso.master.sweetcity.webservice.tag.TagService;
 
 public class GetTagListAsyncTask extends AsyncTask<String, Void, TagCollection> {

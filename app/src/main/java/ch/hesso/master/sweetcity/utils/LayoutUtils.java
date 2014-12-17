@@ -1,7 +1,9 @@
 package ch.hesso.master.sweetcity.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,6 +13,10 @@ public class LayoutUtils {
 
     public static boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    public static LayoutInflater getInflater(Activity context) {
+        return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @SuppressWarnings("unchecked")
@@ -46,5 +52,4 @@ public class LayoutUtils {
 
         return view;
     }
-
 }

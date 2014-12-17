@@ -17,8 +17,6 @@ import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.callback.TagCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentTagList;
 import ch.hesso.master.sweetcity.model.Tag;
-import ch.hesso.master.sweetcity.task.GetTagListAsyncTask;
-import ch.hesso.master.sweetcity.utils.AuthUtils;
 
 public class TagSelectionActivity extends Activity implements View.OnClickListener {
 
@@ -31,21 +29,21 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_selection);
 
-        findViewsById();
-        loadTagList();
+        findViews();
+        loadList();
 
         button.setOnClickListener(this);
     }
 
-    private void findViewsById() {
+    private void findViews() {
         listView = (ListView) findViewById(R.id.lv_tag);
         button = (Button) findViewById(R.id.btn_submit);
     }
 
-    private void loadTagList() {
+    private void loadList() {
         if (CurrentTagList.getInstance().isEmpty()) {
             TagCallbackActivity callback = new TagCallbackActivity(this);
-            new GetTagListAsyncTask(this, callback, AuthUtils.getCredential()).execute();
+            CurrentTagList.getInstance().load(this, callback);
         } else {
             showList();
         }
@@ -95,6 +93,9 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Tag callback with display of the tag list on the view
+     */
     private class TagCallbackActivity extends TagCallbackImpl {
 
         public TagCallbackActivity(Activity context) {

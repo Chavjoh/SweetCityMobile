@@ -1,7 +1,5 @@
 package ch.hesso.master.sweetcity.callback;
 
-import android.app.Activity;
-
 import ch.hesso.master.sweetcity.model.Account;
 
 public interface AccountCallback {

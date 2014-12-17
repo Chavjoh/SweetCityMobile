@@ -1,6 +1,7 @@
 package ch.hesso.master.sweetcity.activity.reward;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,21 +39,22 @@ public class RewardAdapter extends ArrayAdapter<Reward> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View rowView = convertView;
+        RewardAdapter.ViewHolder holder;
 
         // Reuse views
         if (rowView == null) {
-            LayoutInflater inflater = context.getLayoutInflater();
-            rowView = inflater.inflate(LAYOUT, null);
+            LayoutInflater inflater = LayoutUtils.getInflater(context);
+            rowView = inflater.inflate(LAYOUT, parent, false);
 
-            ViewHolder viewHolder = new ViewHolder();
-            viewHolder.tvTitle = LayoutUtils.findView(rowView, R.id.tv_title);
-            viewHolder.tvDescription = LayoutUtils.findView(rowView, R.id.tv_description);
-            viewHolder.ivIcon = LayoutUtils.findView(rowView, R.id.iv_icon);
-            rowView.setTag(viewHolder);
+            holder = new RewardAdapter.ViewHolder();
+            holder.tvTitle = LayoutUtils.findView(rowView, R.id.tv_title);
+            holder.tvDescription = LayoutUtils.findView(rowView, R.id.tv_description);
+            holder.ivIcon = LayoutUtils.findView(rowView, R.id.iv_icon);
+            rowView.setTag(holder);
         }
 
         // Fill data
-        ViewHolder holder = (ViewHolder) rowView.getTag();
+        holder = (RewardAdapter.ViewHolder) rowView.getTag();
 
         Reward reward = values.get(position);
         holder.tvTitle.setText(reward.getName());

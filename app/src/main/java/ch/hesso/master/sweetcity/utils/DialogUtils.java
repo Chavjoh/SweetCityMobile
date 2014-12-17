@@ -19,7 +19,7 @@ public class DialogUtils {
         return dialogShown;
     }
 
-    public static AlertDialog show(final Activity context, final String message) {
+    public static AlertDialog show(Activity context, final String message) {
         final SpannableString s = new SpannableString(message);
         Linkify.addLinks(s, Linkify.ALL);
 

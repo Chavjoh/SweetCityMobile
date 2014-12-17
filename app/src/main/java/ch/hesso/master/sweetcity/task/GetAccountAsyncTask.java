@@ -7,11 +7,10 @@ import android.util.Log;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import ch.hesso.master.sweetcity.Constants;
+import ch.hesso.master.sweetcity.callback.AccountCallback;
 import ch.hesso.master.sweetcity.model.Account;
-import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.ServiceUtils;
 import ch.hesso.master.sweetcity.webservice.account.AccountService;
-import ch.hesso.master.sweetcity.callback.AccountCallback;
 
 public class GetAccountAsyncTask extends AsyncTask<String, Void, Account> {
 

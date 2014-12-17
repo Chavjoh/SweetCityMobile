@@ -1,13 +1,11 @@
 package ch.hesso.master.sweetcity.data;
 
 import android.app.Activity;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.callback.TagCallback;
 import ch.hesso.master.sweetcity.callback.TagCallbackImpl;
 import ch.hesso.master.sweetcity.model.Tag;
@@ -27,8 +25,17 @@ public class CurrentTagList {
         return instance;
     }
 
-    public CurrentTagList() {
+    private CurrentTagList() {
         this.tagList = new ArrayList<Tag>();
+    }
+
+    public void load(Activity context) {
+        TagCallback callback = new TagCallbackImpl(context);
+        load(context, callback);
+    }
+
+    public void load(Activity context, TagCallback callback) {
+        new GetTagListAsyncTask(context, callback, AuthUtils.getCredential()).execute();
     }
 
     public void setList(List<Tag> tagList) {
@@ -53,11 +60,6 @@ public class CurrentTagList {
 
     public List<Tag> getList() {
         return this.tagList;
-    }
-
-    public void load(Activity context) {
-        TagCallback callback = new TagCallbackImpl(context);
-        new GetTagListAsyncTask(context, callback, AuthUtils.getCredential());
     }
 
     public boolean isEmpty() {

@@ -13,7 +13,6 @@ import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
 import ch.hesso.master.sweetcity.utils.ProjectUtils;
 
-
 public class WelcomeActivity extends Activity {
 
     @Override

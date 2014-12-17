@@ -7,7 +7,6 @@ import android.util.Log;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import ch.hesso.master.sweetcity.Constants;
-import ch.hesso.master.sweetcity.callback.AccountCallback;
 import ch.hesso.master.sweetcity.callback.ReportCallback;
 import ch.hesso.master.sweetcity.model.ReportCollection;
 import ch.hesso.master.sweetcity.utils.ServiceUtils;
@@ -27,6 +26,7 @@ public class GetReportListAsyncTask extends AsyncTask<String, Void, ReportCollec
 
     protected void onPreExecute(){
         super.onPreExecute();
+        callback.beforeLoading();
     }
 
     protected ReportCollection doInBackground(String... params) {
@@ -51,7 +51,6 @@ public class GetReportListAsyncTask extends AsyncTask<String, Void, ReportCollec
 
     protected void onPostExecute(ReportCollection reportCollection) {
         super.onPostExecute(reportCollection);
-
         callback.loaded(reportCollection.getItems());
     }
 }

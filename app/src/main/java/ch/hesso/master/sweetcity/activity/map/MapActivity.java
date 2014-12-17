@@ -25,18 +25,41 @@ import ch.hesso.master.sweetcity.activity.IntentTag;
 import ch.hesso.master.sweetcity.activity.report.ReportActivity;
 import ch.hesso.master.sweetcity.activity.report.ShowReportActivity;
 import ch.hesso.master.sweetcity.activity.reward.RewardActivity;
-import ch.hesso.master.sweetcity.activity.reward.RewardAdapter;
 import ch.hesso.master.sweetcity.callback.ReportCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
 
 public class MapActivity extends FragmentActivity {
 
-    private GoogleMap map; // Might be null if Google Play services APK is not available.
+    /**
+     * Might be null if Google Play services APK is not available.
+     */
+    private GoogleMap map;
+
+    /**
+     * Location service to use with map
+     */
     private LocationManager locationManager;
+
+    /**
+     * Used to show the current position on the map
+     */
     private MapLocationListener listener;
-    private String provider;
+
+    /**
+     * Best location provider
+     */
+    private String locationProvider;
+
+    /**
+     * Stores the report associated to each marker on the map
+     */
     private HashMap<Marker, Report> markerReport;
+
+    /**
+     * Report list wrapper
+     */
+    private CurrentReportList reportList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +68,8 @@ public class MapActivity extends FragmentActivity {
 
         markerReport = new HashMap<Marker, Report>();
 
-        CurrentReportList.getInstance().load(this, new MapReportCallback(this));
+        reportList = CurrentReportList.getInstance();
+        reportList.load(this, new MapReportCallback(this));
 
         configureMap();
     }
@@ -58,7 +82,7 @@ public class MapActivity extends FragmentActivity {
         configureMap();
         showCurrentPosition();
 
-        locationManager.requestLocationUpdates(provider, 15000, 0, listener);
+        locationManager.requestLocationUpdates(locationProvider, 15000, 0, listener);
     }
 
     @Override
@@ -68,7 +92,7 @@ public class MapActivity extends FragmentActivity {
         switch (requestCode) {
             case IntentTag.DO_REPORTS:
                 if(resultCode == RESULT_OK){
-                    CurrentReportList.getInstance().load(MapActivity.this, new MapReportCallback(MapActivity.this));
+                    reportList.load(MapActivity.this, new MapReportCallback(MapActivity.this));
                 }
                 break;
         }
@@ -120,28 +144,29 @@ public class MapActivity extends FragmentActivity {
     }
     
     private void configureMap() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (map == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    Intent intent = new Intent(getApplicationContext(), ShowReportActivity.class);
-                    intent.putExtra("report", CurrentReportList.getInstance().getPosition(markerReport.get(marker)));
-                    startActivity(intent);
-                            
-                    return false;
-                }
-            });
-        }
+        // Do a null check to confirm that we have not already instantiated the map
+        if (map != null)
+            return;
+
+        // Try to obtain the map from the SupportMapFragment.
+        map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent intent = new Intent(getApplicationContext(), ShowReportActivity.class);
+                intent.putExtra("report", reportList.getPosition(markerReport.get(marker)));
+                startActivity(intent);
+
+                return false;
+            }
+        });
     }
     
     public void showReports(){
         if (map == null)
             return;
 
-        for (Report report:CurrentReportList.getInstance().getList()){
+        for (Report report:reportList.getList()){
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng(report.getLatitude(), report.getLongitude()));
             Marker marker = map.addMarker(markerOptions);
@@ -150,23 +175,27 @@ public class MapActivity extends FragmentActivity {
     }
 
     public void showCurrentPosition() {
-        if (map != null) {
-            // Enabling MyLocation Layer of Google Map
-            map.setMyLocationEnabled(true);
+        if (map == null)
+            return;
 
-            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            provider = locationManager.getBestProvider(new Criteria(), true);
-            Location location = locationManager.getLastKnownLocation(provider);
+        // Enabling MyLocation Layer of Google Map
+        map.setMyLocationEnabled(true);
 
-            listener = new MapLocationListener(map);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationProvider = locationManager.getBestProvider(new Criteria(), true);
+        Location location = locationManager.getLastKnownLocation(locationProvider);
 
-            if (location != null) {
-                listener.onLocationChanged(location);
-                map.animateCamera(CameraUpdateFactory.zoomTo(15));
-            }
+        listener = new MapLocationListener(map);
+
+        if (location != null) {
+            listener.onLocationChanged(location);
+            map.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
     }
 
+    /**
+     * Report callback with display of the report list on the map
+     */
     private class MapReportCallback extends ReportCallbackImpl {
 
         public MapReportCallback(Activity context) {

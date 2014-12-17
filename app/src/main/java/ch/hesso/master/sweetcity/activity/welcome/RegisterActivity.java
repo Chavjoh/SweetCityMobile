@@ -16,7 +16,6 @@ import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
 
-
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private EditText login;
