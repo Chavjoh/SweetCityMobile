@@ -8,7 +8,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="ch.hesso.master.sweetcity.activity.welcome.WelcomeActivity"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="#000000">
 
     <TextView
         android:text="@string/welcome_loading"
@@ -36,7 +37,7 @@
         android:id="@+id/progress_wheel"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        wheel:barColor="#5588FF"
+        wheel:barColor="#cf242e"
         wheel:progressIndeterminate="true"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"

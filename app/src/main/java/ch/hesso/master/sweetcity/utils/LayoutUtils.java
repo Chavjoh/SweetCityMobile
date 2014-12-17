@@ -30,4 +30,21 @@ public class LayoutUtils {
         return view;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends View> T findView(View parentView, int id) {
+        T view = null;
+
+        View genericView = parentView.findViewById(id);
+
+        try {
+            view = (T) (genericView);
+        } catch (Exception ex) {
+            String message = "Can't cast view (" + id + ") to a " + view.getClass() + ".  Is actually a " + genericView.getClass() + ".";
+            Log.e(Constants.PROJECT_NAME, message);
+            throw new ClassCastException(message);
+        }
+
+        return view;
+    }
+
 }

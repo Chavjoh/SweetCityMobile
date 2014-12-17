@@ -1,14 +1,12 @@
 package ch.hesso.master.sweetcity.activity.tag;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.hesso.master.sweetcity.R;
-import ch.hesso.master.sweetcity.activity.report.ReportActivity;
 import ch.hesso.master.sweetcity.callback.TagCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentTagList;
 import ch.hesso.master.sweetcity.model.Tag;
@@ -27,7 +24,7 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
 
     private Button button;
     private ListView listView;
-    private TagAdapter adapter;
+    private TagSelectionAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,7 @@ public class TagSelectionActivity extends Activity implements View.OnClickListen
     }
 
     private void showList(List<Tag> list) {
-        adapter = new TagAdapter(this, list);
+        adapter = new TagSelectionAdapter(this, list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
