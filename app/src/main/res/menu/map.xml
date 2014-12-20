@@ -5,11 +5,19 @@
     <item android:id="@+id/action_add_report"
         android:title="@string/action_add_report"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_report_add"
         android:showAsAction="always" />
 
     <item android:id="@+id/action_show_reward"
         android:title="@string/action_show_reward"
         android:orderInCategory="200"
+        android:icon="@drawable/ic_reward"
+        android:showAsAction="always" />
+
+    <item android:id="@+id/action_refresh_report"
+        android:title="@string/action_refresh_report"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_refresh"
         android:showAsAction="always" />
 
 </menu>

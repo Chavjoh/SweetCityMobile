@@ -28,6 +28,7 @@ import ch.hesso.master.sweetcity.activity.reward.RewardActivity;
 import ch.hesso.master.sweetcity.callback.ReportCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
+import progress.menu.item.ProgressMenuItemHelper;
 
 public class MapActivity extends FragmentActivity {
 
@@ -61,6 +62,8 @@ public class MapActivity extends FragmentActivity {
      */
     private CurrentReportList reportList;
 
+    private ProgressMenuItemHelper progressHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +72,6 @@ public class MapActivity extends FragmentActivity {
         markerReport = new HashMap<Marker, Report>();
 
         reportList = CurrentReportList.getInstance();
-        reportList.load(this, new MapReportCallback(this));
 
         configureMap();
     }
@@ -109,6 +111,10 @@ public class MapActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.map, menu);
+
+        progressHelper = new ProgressMenuItemHelper(menu.findItem(R.id.action_refresh_report));
+        reportList.load(this, new MapReportCallback(this));
+
         return true;
     }
 
@@ -136,6 +142,11 @@ public class MapActivity extends FragmentActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                return true;
+
+            case R.id.action_refresh_report:
+                reportList.load(MapActivity.this, new MapReportCallback(MapActivity.this));
 
                 return true;
         }
@@ -203,8 +214,15 @@ public class MapActivity extends FragmentActivity {
         }
 
         @Override
+        public void beforeLoading() {
+            super.beforeLoading();
+            progressHelper.startProgress();
+        }
+
+        @Override
         public void loaded(List<Report> list) {
             super.loaded(list);
+            progressHelper.stopProgress();
             showReports();
         }
     }

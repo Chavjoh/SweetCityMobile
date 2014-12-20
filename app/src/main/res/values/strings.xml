@@ -21,5 +21,6 @@
     <string name="register_button">Register</string>
     <string name="title_activity_reward">Rewards</string>
     <string name="action_show_reward">Show rewards</string>
+    <string name="action_refresh_report">Refresh report list</string>
 
 </resources>

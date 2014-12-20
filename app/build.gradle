@@ -44,7 +44,8 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.trimou:trimou-extension-gson:1.7.0.Final'
-    compile 'com.pnikosis:materialish-progress:1.0'
+    compile 'com.pnikosis:materialish-progress:1.2'
+    compile 'com.github.hotchemi:ProgressMenuItem:0.3.3'
     compile('com.amazonaws:aws-android-sdk-core:2.1.5') {
         // Provided by Android SDK.
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
