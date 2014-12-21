@@ -51,6 +51,9 @@ public class GetReportListAsyncTask extends AsyncTask<String, Void, ReportCollec
 
     protected void onPostExecute(ReportCollection reportCollection) {
         super.onPostExecute(reportCollection);
-        callback.loaded(reportCollection.getItems());
+
+        if (reportCollection != null) {
+            callback.loaded(reportCollection.getItems());
+        }
     }
 }

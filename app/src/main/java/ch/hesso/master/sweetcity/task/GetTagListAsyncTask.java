@@ -52,6 +52,8 @@ public class GetTagListAsyncTask extends AsyncTask<String, Void, TagCollection> 
     protected void onPostExecute(TagCollection tagCollection) {
         super.onPostExecute(tagCollection);
 
-        callback.loaded(tagCollection.getItems());
+        if (tagCollection != null) {
+            callback.loaded(tagCollection.getItems());
+        }
     }
 }

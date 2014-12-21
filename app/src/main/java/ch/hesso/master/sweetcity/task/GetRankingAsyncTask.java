@@ -55,6 +55,9 @@ public class GetRankingAsyncTask extends AsyncTask<String, Void, AccountCollecti
 
     protected void onPostExecute(AccountCollection accountCollection) {
         super.onPostExecute(accountCollection);
-        callback.loaded(accountCollection.getItems());
+
+        if (accountCollection != null) {
+            callback.loaded(accountCollection.getItems());
+        }
     }
 }

@@ -53,6 +53,8 @@ public class GetRewardListAsyncTask extends AsyncTask<String, Void, RewardCollec
     protected void onPostExecute(RewardCollection rewardCollection) {
         super.onPostExecute(rewardCollection);
 
-        callback.loaded(rewardCollection.getItems());
+        if (rewardCollection != null) {
+            callback.loaded(rewardCollection.getItems());
+        }
     }
 }
