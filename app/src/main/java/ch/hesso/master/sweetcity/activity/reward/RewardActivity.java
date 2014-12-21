@@ -3,21 +3,33 @@ package ch.hesso.master.sweetcity.activity.reward;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.daimajia.numberprogressbar.NumberProgressBar;
 
 import java.util.List;
 
+import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.callback.RewardCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentRewardList;
 import ch.hesso.master.sweetcity.model.Reward;
+import ch.hesso.master.sweetcity.utils.AuthUtils;
+import ch.hesso.master.sweetcity.utils.LayoutUtils;
 
 public class RewardActivity extends Activity {
 
+    private static final Integer LEVEL_POINT = 10;
+
     private ListView listView;
     private RewardAdapter adapter;
+    private TextView tvLevel;
+    private TextView tvPoints;
+    private NumberProgressBar pbExperience;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +40,24 @@ public class RewardActivity extends Activity {
 
         findViewsById();
         loadTagList();
+        showExperience();
+    }
+
+    private void showExperience() {
+        Integer points = AuthUtils.getAccount().getPoints();
+        Integer level = (int) Math.floor((double) points / (double) LEVEL_POINT) + 1;
+        Integer progress = (int) ((( (double)(points % LEVEL_POINT) ) / LEVEL_POINT) * 100);
+
+        tvLevel.setText(String.valueOf(level));
+        tvPoints.setText(String.valueOf(points));
+        pbExperience.setProgress(progress);
     }
 
     private void findViewsById() {
         listView = (ListView) findViewById(R.id.lv_reward);
+        tvLevel = LayoutUtils.findView(this, R.id.tv_level_value);
+        tvPoints = LayoutUtils.findView(this, R.id.tv_points_value);
+        pbExperience = LayoutUtils.findView(this, R.id.pb_experience);
     }
 
     private void loadTagList() {

@@ -46,6 +46,7 @@ dependencies {
     compile 'org.trimou:trimou-extension-gson:1.7.0.Final'
     compile 'com.pnikosis:materialish-progress:1.2'
     compile 'com.github.hotchemi:ProgressMenuItem:0.3.3'
+    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile('com.amazonaws:aws-android-sdk-core:2.1.5') {
         // Provided by Android SDK.
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')

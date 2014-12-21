@@ -22,5 +22,8 @@
     <string name="title_activity_reward">Rewards</string>
     <string name="action_show_reward">Show rewards</string>
     <string name="action_refresh_report">Refresh report list</string>
+    <string name="level">LEVEL</string>
+    <string name="points">POINTS</string>
+    <string name="progress">PROGRESS</string>
 
 </resources>
