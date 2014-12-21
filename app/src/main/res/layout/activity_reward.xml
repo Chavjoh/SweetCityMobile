@@ -28,17 +28,15 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/level"
                 android:gravity="center"
-                android:id="@+id/tv_level"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="35dp" />
+                android:id="@+id/tv_level"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/points"
                 android:gravity="center"
-                android:id="@+id/tv_level_value"
-                android:layout_marginEnd="15dp" />
+                android:id="@+id/tv_points" />
 
         </TableRow>
 
@@ -52,11 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/points"
                 android:gravity="center"
-                android:id="@+id/tv_points"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="35dp" />
+                android:id="@+id/tv_level_value"
+                android:layout_marginEnd="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,8 +77,8 @@
                 android:text="@string/progress"
                 android:gravity="center"
                 android:id="@+id/tv_progress"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="35dp"  />
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"  />
 
 
             <com.daimajia.numberprogressbar.NumberProgressBar

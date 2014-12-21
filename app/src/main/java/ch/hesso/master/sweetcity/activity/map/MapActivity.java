@@ -22,6 +22,7 @@ import java.util.List;
 
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.activity.IntentTag;
+import ch.hesso.master.sweetcity.activity.ranking.RankingActivity;
 import ch.hesso.master.sweetcity.activity.report.ReportActivity;
 import ch.hesso.master.sweetcity.activity.report.ShowReportActivity;
 import ch.hesso.master.sweetcity.activity.reward.RewardActivity;
@@ -138,6 +139,16 @@ public class MapActivity extends FragmentActivity {
             case R.id.action_show_reward:
                 try {
                     Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+
+            case R.id.action_show_ranking:
+                try {
+                    Intent intent = new Intent(getApplicationContext(), RankingActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();

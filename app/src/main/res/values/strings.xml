@@ -25,5 +25,7 @@
     <string name="level">LEVEL</string>
     <string name="points">POINTS</string>
     <string name="progress">PROGRESS</string>
+    <string name="action_show_ranking">Show ranking</string>
+    <string name="title_activity_ranking">Ranking</string>
 
 </resources>
