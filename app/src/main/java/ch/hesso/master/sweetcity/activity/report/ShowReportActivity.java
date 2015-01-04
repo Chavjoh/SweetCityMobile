@@ -11,7 +11,11 @@ import android.widget.ImageView;
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
+import ch.hesso.master.sweetcity.task.GetRankingAsyncTask;
+import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.PictureUtils;
+import ch.hesso.master.sweetcity.task.GetReportPictureAsyncTask;
+import ch.hesso.master.sweetcity.callback.PictureUploadCallbackImpl;
 
 public class ShowReportActivity extends Activity {
 
@@ -27,8 +31,7 @@ public class ShowReportActivity extends Activity {
         Integer position = getIntent().getIntExtra("report", 0);
         Report report = CurrentReportList.getInstance().get(position);
 
-        Bitmap pictureBitmap = BitmapFactory.decodeStream(PictureUtils.getPicture(PictureUtils.Key.fromString(report.getImage())));
-        imageView.setImageBitmap(pictureBitmap);
+        new GetReportPictureAsyncTask(this, new PictureUploadCallbackImpl(this), PictureUtils.Key.fromString(report.getImage())).execute();
     }
 
     @Override
@@ -51,5 +54,9 @@ public class ShowReportActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setPicture(Bitmap picture) {
+        this.imageView.setImageBitmap(picture);
     }
 }

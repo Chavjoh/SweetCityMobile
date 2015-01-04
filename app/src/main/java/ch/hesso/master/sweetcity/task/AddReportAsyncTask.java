@@ -43,7 +43,6 @@ public class AddReportAsyncTask extends AsyncTask<String, Void, Void> {
         try {
             Log.d(Constants.PROJECT_NAME, "[ReportService] Adding ...");
 
-            this.uploadPicture();
             PictureUtils.Key key = PictureUtils.uploadPicture(this.localPicturePath, this.credential);
             report.setImage(key.toString());
 
@@ -59,13 +58,6 @@ public class AddReportAsyncTask extends AsyncTask<String, Void, Void> {
         }
 
         return null;
-    }
-
-    /**
-     * Upload the image to AWS
-     * Create an URL and store it into 'this.report'.
-     */
-    private void uploadPicture() {
     }
 
     @Override
