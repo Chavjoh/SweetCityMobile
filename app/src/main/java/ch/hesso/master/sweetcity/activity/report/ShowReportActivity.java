@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
@@ -20,17 +23,26 @@ import ch.hesso.master.sweetcity.callback.PictureUploadCallbackImpl;
 public class ShowReportActivity extends Activity {
 
     private ImageView imageView;
+    private TextView user;
+    private TextView date;
+    private TextView votes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_report);
 
-        imageView = (ImageView)findViewById(R.id.showReport);
+        imageView = (ImageView)findViewById(R.id.showReportImage);
+        user = (TextView)findViewById(R.id.showReportUser);
+        date = (TextView)findViewById(R.id.showReportDate);
+        votes = (TextView)findViewById(R.id.showReportVotes);
 
         Integer position = getIntent().getIntExtra("report", 0);
         Report report = CurrentReportList.getInstance().get(position);
 
+        user.setText(report.getUser().getPseudo());
+        date.setText(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(report.getSubmitDate().getValue()));
+        votes.setText(String.valueOf(report.getVote()));
         new GetReportPictureAsyncTask(this, new PictureUploadCallbackImpl(this), PictureUtils.Key.fromString(report.getImage())).execute();
     }
 
