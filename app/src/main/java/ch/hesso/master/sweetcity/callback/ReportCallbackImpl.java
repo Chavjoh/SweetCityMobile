@@ -55,5 +55,4 @@ public class ReportCallbackImpl implements ReportCallback {
             this.context.finish();
         }
     }
-
 }

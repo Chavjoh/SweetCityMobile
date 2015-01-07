@@ -114,7 +114,7 @@ public class ReportActivity extends Activity {
         newReport.setUser(AuthUtils.getAccount());
         newReport.setListTag(new ArrayList(tagList.values()));
 
-        ReportCallbackImpl callback = new ReportCallbackImpl(ReportActivity.this);
+        ReportCallbackImpl callback = new ReportCallbackWithResult(ReportActivity.this);
         new AddReportAsyncTask(this, callback, AuthUtils.getCredential(), newReport, bitmapPicture).execute();
     }
 
@@ -196,5 +196,18 @@ public class ReportActivity extends Activity {
         showTagList();
         showPicture();
     }
-    
+
+    private class ReportCallbackWithResult extends ReportCallbackImpl {
+
+        public ReportCallbackWithResult(Activity context) {
+            super(context);
+        }
+
+        @Override
+        public void afterAdding() {
+            if (!this.isFailed)
+                ReportActivity.this.setResult(RESULT_OK, new Intent());
+            super.afterAdding();
+        }
+    }
 }
