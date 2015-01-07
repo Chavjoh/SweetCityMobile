@@ -28,7 +28,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/level"
                 android:gravity="center"
-                android:id="@+id/tv_level"/>
+                android:id="@+id/tv_level"
+                style="@style/headerRewardLabel" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,7 +37,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/points"
                 android:gravity="center"
-                android:id="@+id/tv_points" />
+                android:id="@+id/tv_points"
+                style="@style/headerRewardLabel" />
 
         </TableRow>
 
@@ -52,7 +54,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center"
                 android:id="@+id/tv_level_value"
-                android:layout_marginEnd="15dp" />
+                style="@style/headerRewardLabel" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,7 +62,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center"
                 android:id="@+id/tv_points_value"
-                android:layout_marginEnd="15dp" />
+                style="@style/headerRewardLabel" />
 
         </TableRow>
 

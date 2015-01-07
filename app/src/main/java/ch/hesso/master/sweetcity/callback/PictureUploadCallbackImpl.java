@@ -5,14 +5,13 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 
 import ch.hesso.master.sweetcity.utils.DialogUtils;
-import ch.hesso.master.sweetcity.activity.report.ShowReportActivity;
 
 public class PictureUploadCallbackImpl implements PictureUploadCallback {
 
-    protected ShowReportActivity context;
+    protected Activity context;
     protected ProgressDialog progressDialog;
 
-    public PictureUploadCallbackImpl(ShowReportActivity context) {
+    public PictureUploadCallbackImpl(Activity context) {
         this.context = context;
     }
 
@@ -26,10 +25,6 @@ public class PictureUploadCallbackImpl implements PictureUploadCallback {
     @Override
     public void loaded(Bitmap picture) {
         this.progressDialog.dismiss();
-
-        if (picture != null) {
-            this.context.setPicture(picture);
-        }
     }
 
     @Override

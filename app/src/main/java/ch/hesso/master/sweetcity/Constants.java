@@ -5,6 +5,8 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 
+import java.text.SimpleDateFormat;
+
 public class Constants {
 
     public static final String PROJECT_NAME = "SweetCity";
@@ -19,6 +21,7 @@ public class Constants {
     public static final HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
 
     public static final String AWS_ACCESS_KEY = "AKIAIRF62L4JQVKNBGTA";
-    public static final String AWS_SECRET_ACCESS_KEY = "";
+    public static final String AWS_SECRET_ACCESS_KEY = "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";
 
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 }

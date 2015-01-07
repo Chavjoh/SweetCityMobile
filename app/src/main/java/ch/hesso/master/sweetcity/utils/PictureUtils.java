@@ -54,7 +54,7 @@ public class PictureUtils {
             InputStream localStreamPicture = new FileInputStream(localPath);
             ObjectMetadata pictureMetadata = new ObjectMetadata();
 
-            String key = String.format("pictures/%s/img_%s.jpg", googleCredential.getSelectedAccountName(), new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date())); // %s/
+            String key = String.format("pictures/%s/img_%s.jpg", googleCredential.getSelectedAccountName(), new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date()));
             s3Connection.putObject(BUCKET_NAME, key, localStreamPicture, pictureMetadata);
 
             return new Key(key);

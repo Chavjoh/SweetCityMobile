@@ -15,8 +15,10 @@
     <string name="action_add_report">Add a report</string>
     <string name="title_activity_tag_selection">Tag selection</string>
     <string name="submit">Submit</string>
-    <string name="take_picture">Take a picture</string>
-    <string name="tag_selection">Select tags</string>
+    <string name="take_picture">Take the picture</string>
+    <string name="retake_picture">Retake the picture</string>
+    <string name="select_tags">Select tags</string>
+    <string name="reselect_tags">Select tags</string>
     <string name="register_description">Create a SweetCity account offer you the chance to participate to your city improvement. Create and vote for reports, earn experience and rewards to be the best contributor ! To register, please enter a login below : </string>
     <string name="register_button">Register</string>
     <string name="title_activity_reward">Rewards</string>
@@ -28,5 +30,9 @@
     <string name="action_show_ranking">Show ranking</string>
     <string name="title_activity_ranking">Ranking</string>
     <string name="report_image_description">Report image</string>
+    <string name="submitter">Submitter</string>
+    <string name="votes">Votes</string>
+    <string name="submit_date">Submit date</string>
+    <string name="tags">Tags</string>
 
 </resources>

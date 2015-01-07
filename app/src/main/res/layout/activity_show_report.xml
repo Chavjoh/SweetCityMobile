@@ -14,64 +14,59 @@
     <GridLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
         android:columnCount="2"
         android:rowCount="5"
         android:orientation="horizontal">
 
         <TextView
-            android:text="Submiter"
+            android:text="@string/submitter"
             style="@style/showReportLabel"
             android:layout_row="0"
             android:layout_column="0" />
 
         <TextView
-            android:text="ShowReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/showReportUser"
+            android:id="@+id/tv_report_user"
             android:layout_row="0"
             android:layout_column="1" />
 
         <TextView
-            android:text="Votes"
+            android:text="@string/votes"
             style="@style/showReportLabel"
             android:layout_row="1"
             android:layout_column="0" />
 
         <TextView
-            android:text="ShowReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/showReportVotes"
+            android:id="@+id/tv_report_votes"
             android:layout_row="1"
             android:layout_column="1" />
 
         <TextView
-            android:text="Submit date"
+            android:text="@string/submit_date"
             style="@style/showReportLabel"
             android:layout_row="2"
             android:layout_column="0" />
 
         <TextView
-            android:text="ShowReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/showReportDate"
+            android:id="@+id/tv_report_date"
             android:layout_row="2"
             android:layout_column="1" />
 
         <TextView
-            android:text="Tags"
-            style="@style/showReportLabel" />
+            android:text="@string/tags"
+            style="@style/showReportLabel"
             android:layout_row="3"
-            android:layout_column="0"
+            android:layout_column="0" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ShowReport"
-            android:id="@+id/showReportTags"
+            android:id="@+id/tv_report_tags"
             android:layout_row="3"
             android:layout_column="1" />
     </GridLayout>
@@ -79,8 +74,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/showReportImage"
-        android:layout_below="@+id/textView"
-        />
+        android:id="@+id/iv_report_image" />
 
 </LinearLayout>

@@ -39,6 +39,8 @@ import ch.hesso.master.sweetcity.model.Report;
 import ch.hesso.master.sweetcity.model.Tag;
 import ch.hesso.master.sweetcity.task.AddReportAsyncTask;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
+import ch.hesso.master.sweetcity.utils.DialogUtils;
+import ch.hesso.master.sweetcity.utils.LayoutUtils;
 
 public class ReportActivity extends Activity {
 
@@ -47,6 +49,10 @@ public class ReportActivity extends Activity {
     private String localPicturePath;
     private HashMap<Integer, Tag> tagList;
 
+    private Button capture;
+    private Button tagSelection;
+    private Button submit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +60,7 @@ public class ReportActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tagList = new HashMap<Integer, Tag>();
-        tagResume = (TextView)findViewById(R.id.tv_tag);
-        imageView = (ImageView)findViewById(R.id.iv_report);
+        findViews();
 
         final String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/sweetCity/";
         File directory = new File(path);
@@ -66,7 +70,6 @@ public class ReportActivity extends Activity {
             Log.d(Constants.PROJECT_NAME, file.getPath());
         }
 
-        Button capture = (Button) findViewById(R.id.btn_picture);
         capture.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -89,7 +92,6 @@ public class ReportActivity extends Activity {
 
         });
 
-        Button tagSelection = (Button) findViewById(R.id.btn_tag);
         tagSelection.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -100,11 +102,16 @@ public class ReportActivity extends Activity {
 
         });
 
-        Button submit = (Button) findViewById(R.id.btn_submit);
         submit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                if (localPicturePath == null) {
+                    DialogUtils.show(ReportActivity.this, "To submit a report, you need to take an representative image.");
+                    return;
+                }
+
                 LocationManager locationManager = (LocationManager) ReportActivity.this.getSystemService(LOCATION_SERVICE);
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
@@ -122,6 +129,15 @@ public class ReportActivity extends Activity {
         });
     }
 
+    private void findViews() {
+        tagList = new HashMap<Integer, Tag>();
+        tagResume = LayoutUtils.findView(this, R.id.tv_tag);
+        imageView = LayoutUtils.findView(this, R.id.iv_report);
+        capture = LayoutUtils.findView(this, R.id.btn_picture);
+        tagSelection = LayoutUtils.findView(this, R.id.btn_tag);
+        submit = LayoutUtils.findView(this, R.id.btn_submit);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -130,6 +146,8 @@ public class ReportActivity extends Activity {
             case IntentTag.TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
                     showPicture();
+
+                    capture.setText(R.string.retake_picture);
                 }
                 break;
 
@@ -140,6 +158,8 @@ public class ReportActivity extends Activity {
                     tagList.clear();
                     CurrentTagList.getInstance().putAllFromPositions(tagList, result);
                     showTagList();
+
+                    tagSelection.setText(R.string.reselect_tags);
                 }
                 break;
         }

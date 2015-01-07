@@ -31,7 +31,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tag_selection"
+            android:text="@string/select_tags"
             android:id="@+id/btn_tag" />
 
         <TextView
