@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class RewardActivity extends Activity {
     private TextView tvLevel;
     private TextView tvPoints;
     private NumberProgressBar pbExperience;
+    private ProgressWheel progressWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class RewardActivity extends Activity {
         tvLevel = LayoutUtils.findView(this, R.id.tv_level_value);
         tvPoints = LayoutUtils.findView(this, R.id.tv_points_value);
         pbExperience = LayoutUtils.findView(this, R.id.pb_experience);
+        progressWheel = LayoutUtils.findView(this, R.id.progress_wheel);
     }
 
     private void loadList() {
@@ -73,6 +77,7 @@ public class RewardActivity extends Activity {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        progressWheel.setVisibility(View.INVISIBLE);
     }
 
     private void showList() {

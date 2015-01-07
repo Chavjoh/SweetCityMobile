@@ -1,8 +1,6 @@
 package ch.hesso.master.sweetcity.utils;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import ch.hesso.master.sweetcity.model.Reward;
 import ch.hesso.master.sweetcity.model.Tag;

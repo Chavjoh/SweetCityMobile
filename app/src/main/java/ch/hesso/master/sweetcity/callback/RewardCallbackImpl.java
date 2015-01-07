@@ -20,13 +20,11 @@ public class RewardCallbackImpl implements RewardCallback {
 
     @Override
     public void beforeLoading() {
-        progressDialog = DialogUtils.showProgressDialog(context, "Retrieving reward list ...");
+
     }
 
     @Override
     public void loaded(List<Reward> list) {
-        DialogUtils.hideProgressDialog(progressDialog);
-
         if (list != null) {
             CurrentRewardList.getInstance().setList(list);
         }
@@ -34,7 +32,6 @@ public class RewardCallbackImpl implements RewardCallback {
 
     @Override
     public void failed() {
-        DialogUtils.hideProgressDialog(progressDialog);
         DialogUtils.showAndExit(context, "Service unavailable");
     }
 }

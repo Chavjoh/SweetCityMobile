@@ -12,8 +12,9 @@
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tl_experience"
-        android:layout_width="fill_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_margin="5dp"
         android:shrinkColumns="1"
         android:stretchColumns="1">
@@ -22,7 +23,7 @@
             android:id="@+id/tr_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip">
+            android:paddingBottom="20dip">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,10 +38,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/points"
                 android:gravity="center"
-                android:id="@+id/tv_points"
-                style="@style/headerRewardLabel" />
+                android:id="@+id/tv_level_value"
+                style="@style/headerRewardLabel"/>
 
         </TableRow>
 
@@ -48,14 +48,15 @@
             android:id="@+id/tr_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:paddingBottom="20dip" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/points"
                 android:gravity="center"
-                android:id="@+id/tv_level_value"
+                android:id="@+id/tv_points"
                 style="@style/headerRewardLabel" />
 
             <TextView
@@ -72,7 +73,7 @@
             android:id="@+id/tr_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:paddingBottom="20dip" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,18 +95,21 @@
 
         </TableRow>
 
-        <View
-            android:layout_height="2dip"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#B71C1C" />
-
     </TableLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_toRightOf="@id/tl_experience"
+        android:layout_width="2dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#B71C1C" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tl_experience">
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@id/separator">
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/progress_wheel"
@@ -114,8 +118,8 @@
             android:layout_gravity="center"
             wheel:barColor="#cf242e"
             wheel:progressIndeterminate="true"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/lv_reward"
@@ -123,6 +127,5 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>
