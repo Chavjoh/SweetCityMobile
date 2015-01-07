@@ -17,15 +17,12 @@ import java.io.InputStream;
 import java.util.Date;
 
 import ch.hesso.master.sweetcity.Constants;
+import ch.hesso.master.sweetcity.ConstantsAWS;
 
 public class PictureUtils {
 
     private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials(
-            Constants.AWS_ACCESS_KEY, Constants.AWS_SECRET_ACCESS_KEY);
-
-    private static final String PICTURE_NAME_FORMAT = "pictures/%s/img_%s.jpg";
-    private static final String END_POINT = "s3-eu-west-1.amazonaws.com";
-    private static final String BUCKET_NAME = "sweet-city";
+            ConstantsAWS.AWS_ACCESS_KEY, ConstantsAWS.AWS_SECRET_ACCESS_KEY);
 
     public static class Key {
         private String key;
@@ -52,18 +49,18 @@ public class PictureUtils {
             ClientConfiguration clientConfig = new ClientConfiguration();
             clientConfig.setProtocol(Protocol.HTTP);
             AmazonS3 s3Connection = new AmazonS3Client(AWS_CREDENTIALS, clientConfig);
-            s3Connection.setEndpoint(END_POINT);
+            s3Connection.setEndpoint(ConstantsAWS.S3_END_POINT);
 
             ObjectMetadata pictureMetadata = new ObjectMetadata();
 
             String key = String.format(
-                    PICTURE_NAME_FORMAT,
+                    ConstantsAWS.S3_PICTURE_NAME_FORMAT,
                     googleCredential.getSelectedAccountName(),
                     Constants.DATE_FORMAT_IMAGE.format(new Date())
             );
 
             s3Connection.putObject(
-                    BUCKET_NAME,
+                    ConstantsAWS.S3_BUCKET_NAME,
                     key,
                     ImageUtils.bitmapToInputStream(picture),
                     pictureMetadata
@@ -84,9 +81,9 @@ public class PictureUtils {
             ClientConfiguration clientConfig = new ClientConfiguration();
             clientConfig.setProtocol(Protocol.HTTP);
             AmazonS3 s3Connection = new AmazonS3Client(AWS_CREDENTIALS, clientConfig);
-            s3Connection.setEndpoint(END_POINT);
+            s3Connection.setEndpoint(ConstantsAWS.S3_END_POINT);
 
-            S3Object obj = s3Connection.getObject(BUCKET_NAME, key.toString());
+            S3Object obj = s3Connection.getObject(ConstantsAWS.S3_BUCKET_NAME, key.toString());
             return obj.getObjectContent();
         } catch (Exception e) {
             Log.d(Constants.PROJECT_NAME, e.toString());
