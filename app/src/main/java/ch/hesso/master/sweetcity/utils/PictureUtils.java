@@ -67,9 +67,11 @@ public class PictureUtils {
             );
 
             return new Key(key);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.d(Constants.PROJECT_NAME, e.toString());
         }
+
         return null;
     }
 

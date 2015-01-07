@@ -97,6 +97,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.map.MapActivity" />
         </activity>
+
+        <provider
+            android:name=".provider.CameraPictureProvider"
+            android:authorities="ch.hesso.master.sweetcity.cameraimageprovider"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

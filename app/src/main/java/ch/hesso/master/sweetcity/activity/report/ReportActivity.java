@@ -3,9 +3,12 @@ package ch.hesso.master.sweetcity.activity.report;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +34,9 @@ import ch.hesso.master.sweetcity.callback.ReportCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentTagList;
 import ch.hesso.master.sweetcity.model.Report;
 import ch.hesso.master.sweetcity.model.Tag;
+import ch.hesso.master.sweetcity.provider.CameraPictureProvider;
 import ch.hesso.master.sweetcity.task.AddReportAsyncTask;
+import ch.hesso.master.sweetcity.tools.BitmapScaler;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
 import ch.hesso.master.sweetcity.utils.ImageUtils;
@@ -73,6 +80,7 @@ public class ReportActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, CameraPictureProvider.CONTENT_URI);
                 startActivityForResult(cameraIntent, IntentTag.TAKE_PICTURE);
             }
 
@@ -96,6 +104,19 @@ public class ReportActivity extends Activity {
             }
 
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (bitmapPicture != null) {
+            capture.setText(R.string.retake_picture);
+        }
+
+        if (tagList.size() > 0) {
+            tagSelection.setText(R.string.reselect_tags);
+        }
     }
 
     private void submitReport() {
@@ -125,10 +146,17 @@ public class ReportActivity extends Activity {
         switch (requestCode) {
             case IntentTag.TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
-                    bitmapPicture = (Bitmap) data.getExtras().get("data");
-                    showPicture();
+                    File picture = new File(getFilesDir(), CameraPictureProvider.PICTURE_FILE);
 
-                    capture.setText(R.string.retake_picture);
+                    try {
+                        BitmapScaler scaler = new BitmapScaler(picture, 1024);
+                        bitmapPicture = ImageUtils.getRoundedCornerBitmap(scaler.getScaled(), 64);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    showPicture();
                 }
                 break;
 
@@ -139,8 +167,6 @@ public class ReportActivity extends Activity {
                     tagList.clear();
                     CurrentTagList.getInstance().putAllFromPositions(tagList, result);
                     showTagList();
-
-                    tagSelection.setText(R.string.reselect_tags);
                 }
                 break;
         }
@@ -152,7 +178,7 @@ public class ReportActivity extends Activity {
 
     public void showPicture() {
         if (bitmapPicture != null) {
-            imageView.setImageBitmap(ImageUtils.getRoundedCornerBitmap(bitmapPicture, 64));
+            imageView.setImageBitmap(bitmapPicture);
         }
     }
 
@@ -197,6 +223,16 @@ public class ReportActivity extends Activity {
         showPicture();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        File picture = new File(getFilesDir(), CameraPictureProvider.PICTURE_FILE);
+        if (picture.exists()) {
+            picture.delete();
+        }
+    }
+
     private class ReportCallbackWithResult extends ReportCallbackImpl {
 
         public ReportCallbackWithResult(Activity context) {
@@ -205,8 +241,10 @@ public class ReportActivity extends Activity {
 
         @Override
         public void afterAdding() {
-            if (!this.isFailed)
-                ReportActivity.this.setResult(RESULT_OK, new Intent());
+            if (!this.isFailed) {
+                setResult(RESULT_OK, new Intent());
+            }
+
             super.afterAdding();
         }
     }
