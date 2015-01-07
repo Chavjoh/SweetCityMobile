@@ -41,6 +41,7 @@ import ch.hesso.master.sweetcity.task.AddReportAsyncTask;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
+import ch.hesso.master.sweetcity.utils.ModelUtils;
 
 public class ReportActivity extends Activity {
 
@@ -166,13 +167,7 @@ public class ReportActivity extends Activity {
     }
 
     public void showTagList() {
-        StringBuilder tagListString = new StringBuilder("Tag list : ");
-        for (Map.Entry<Integer, Tag> tag:tagList.entrySet()) {
-            tagListString.append(tag.getValue().getName());
-            tagListString.append(" ");
-        }
-
-        tagResume.setText(tagListString.toString());
+        tagResume.setText(ModelUtils.listToString(new ArrayList<Tag>(tagList.values())));
     }
 
     public void showPicture() {

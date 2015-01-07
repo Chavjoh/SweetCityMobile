@@ -5,17 +5,20 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.callback.PictureUploadCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
-import ch.hesso.master.sweetcity.model.Tag;
 import ch.hesso.master.sweetcity.task.GetReportPictureAsyncTask;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
+import ch.hesso.master.sweetcity.utils.ModelUtils;
 import ch.hesso.master.sweetcity.utils.PictureUtils;
 
 public class ShowReportActivity extends Activity {
@@ -27,6 +30,7 @@ public class ShowReportActivity extends Activity {
     private TextView tvTags;
     private ImageView ivPicture;
     private Bitmap bitmapPicture;
+    private ProgressWheel progressWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,7 @@ public class ShowReportActivity extends Activity {
         this.tvUser.setText(report.getUser().getPseudo());
         this.tvDate.setText(Constants.DATE_FORMAT.format(report.getSubmitDate().getValue()));
         this.tvVotes.setText(String.valueOf(report.getVote()));
-
-        showTagList();
+        this.tvTags.setText(ModelUtils.listToString(this.report.getListTag()));
     }
 
     @Override
@@ -70,16 +73,7 @@ public class ShowReportActivity extends Activity {
         this.tvVotes = LayoutUtils.findView(this, R.id.tv_report_votes);
         this.tvTags = LayoutUtils.findView(this, R.id.tv_report_tags);
         this.ivPicture = LayoutUtils.findView(this, R.id.iv_report_image);
-    }
-
-    private void showTagList() {
-        StringBuilder sbTags = new StringBuilder();
-
-        if (this.report.getListTag() != null)
-            for (Tag tag : this.report.getListTag())
-                sbTags.append((sbTags.length() > 0 ? ", " : "") + tag.getName());
-
-        this.tvTags.setText(sbTags.length() == 0 ? "-" : sbTags.toString());
+        this.progressWheel = LayoutUtils.findView(this, R.id.progress_wheel);
     }
 
     @Override
@@ -97,6 +91,7 @@ public class ShowReportActivity extends Activity {
     public void setPicture(Bitmap picture) {
         this.bitmapPicture = picture;
         this.ivPicture.setImageBitmap(picture);
+        this.progressWheel.setVisibility(View.INVISIBLE);
     }
 
     @Override

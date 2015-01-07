@@ -1,6 +1,11 @@
 package ch.hesso.master.sweetcity.utils;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import ch.hesso.master.sweetcity.model.Reward;
+import ch.hesso.master.sweetcity.model.Tag;
 
 public class ModelUtils {
 
@@ -20,4 +25,15 @@ public class ModelUtils {
         return false;
     }
 
+    public static String listToString(List<Tag> listTag) {
+        StringBuilder sbTags = new StringBuilder();
+
+        if (listTag == null)
+            return "-";
+
+        for (Tag tag : listTag)
+            sbTags.append((sbTags.length() > 0 ? ", " : "") + tag.getName());
+
+        return sbTags.length() == 0 ? "-" : sbTags.toString();
+    }
 }
