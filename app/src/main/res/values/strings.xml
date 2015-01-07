@@ -6,7 +6,7 @@
     <string name="title_activity_report">Add a report</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_show_report">ShowReportActivity</string>
+    <string name="title_activity_show_report">Report</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_welcome">SweetCity</string>
     <string name="title_activity_register">Register</string>
