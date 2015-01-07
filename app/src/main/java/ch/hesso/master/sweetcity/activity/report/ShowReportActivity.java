@@ -17,6 +17,7 @@ import ch.hesso.master.sweetcity.callback.PictureUploadCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
 import ch.hesso.master.sweetcity.task.GetReportPictureAsyncTask;
+import ch.hesso.master.sweetcity.utils.ImageUtils;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
 import ch.hesso.master.sweetcity.utils.ModelUtils;
 import ch.hesso.master.sweetcity.utils.PictureUtils;
@@ -90,21 +91,19 @@ public class ShowReportActivity extends Activity {
 
     public void setPicture(Bitmap picture) {
         this.bitmapPicture = picture;
-        this.ivPicture.setImageBitmap(picture);
+        this.ivPicture.setImageBitmap(ImageUtils.getRoundedCornerBitmap(picture, 64));
         this.progressWheel.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-
         savedInstanceState.putParcelable("image", bitmapPicture);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         setPicture((Bitmap) savedInstanceState.getParcelable("image"));
     }
 

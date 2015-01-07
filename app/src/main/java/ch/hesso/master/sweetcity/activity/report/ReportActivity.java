@@ -3,13 +3,9 @@ package ch.hesso.master.sweetcity.activity.report;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -21,13 +17,9 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import ch.hesso.master.sweetcity.Constants;
 import ch.hesso.master.sweetcity.R;
@@ -40,6 +32,7 @@ import ch.hesso.master.sweetcity.model.Tag;
 import ch.hesso.master.sweetcity.task.AddReportAsyncTask;
 import ch.hesso.master.sweetcity.utils.AuthUtils;
 import ch.hesso.master.sweetcity.utils.DialogUtils;
+import ch.hesso.master.sweetcity.utils.ImageUtils;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
 import ch.hesso.master.sweetcity.utils.ModelUtils;
 
@@ -47,7 +40,7 @@ public class ReportActivity extends Activity {
 
     private TextView tagResume;
     private ImageView imageView;
-    private String localPicturePath;
+    private Bitmap bitmapPicture;
     private HashMap<Integer, Tag> tagList;
 
     private Button capture;
@@ -62,32 +55,24 @@ public class ReportActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         findViews();
+        initButtons();
+    }
 
-        final String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/sweetCity/";
-        File directory = new File(path);
-        directory.mkdirs();
+    private void findViews() {
+        tagList = new HashMap<Integer, Tag>();
+        tagResume = LayoutUtils.findView(this, R.id.tv_tag);
+        imageView = LayoutUtils.findView(this, R.id.iv_report);
+        capture = LayoutUtils.findView(this, R.id.btn_picture);
+        tagSelection = LayoutUtils.findView(this, R.id.btn_tag);
+        submit = LayoutUtils.findView(this, R.id.btn_submit);
+    }
 
-        for (File file : directory.listFiles()) {
-            Log.d(Constants.PROJECT_NAME, file.getPath());
-        }
-
+    private void initButtons() {
         capture.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                localPicturePath = path + (new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date())) + ".jpg";
-
-                File fileImage = new File(localPicturePath);
-                try {
-                    fileImage.createNewFile();
-                } catch (IOException e) {
-                    Log.d(Constants.PROJECT_NAME, e.toString());
-                }
-
-                Uri outputFileUri = Uri.fromFile(fileImage);
-
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, IntentTag.TAKE_PICTURE);
             }
 
@@ -107,36 +92,30 @@ public class ReportActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-
-                if (localPicturePath == null) {
-                    DialogUtils.show(ReportActivity.this, "To submit a report, you need to take an representative image.");
-                    return;
-                }
-
-                LocationManager locationManager = (LocationManager) ReportActivity.this.getSystemService(LOCATION_SERVICE);
-                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                Report newReport = new Report();
-                newReport.setLatitude((float) location.getLatitude());
-                newReport.setLongitude((float) location.getLongitude());
-                newReport.setSubmitDate(new DateTime(new Date()));
-                newReport.setUser(AuthUtils.getAccount());
-                newReport.setListTag(new ArrayList(tagList.values()));
-
-                ReportCallbackImpl callback = new ReportCallbackImpl(ReportActivity.this);
-                new AddReportAsyncTask(ReportActivity.this, callback, AuthUtils.getCredential(), newReport, localPicturePath).execute();
+                submitReport();
             }
 
         });
     }
 
-    private void findViews() {
-        tagList = new HashMap<Integer, Tag>();
-        tagResume = LayoutUtils.findView(this, R.id.tv_tag);
-        imageView = LayoutUtils.findView(this, R.id.iv_report);
-        capture = LayoutUtils.findView(this, R.id.btn_picture);
-        tagSelection = LayoutUtils.findView(this, R.id.btn_tag);
-        submit = LayoutUtils.findView(this, R.id.btn_submit);
+    private void submitReport() {
+        if (bitmapPicture == null) {
+            DialogUtils.show(ReportActivity.this, "To submit a report, you need to take an representative image.");
+            return;
+        }
+
+        LocationManager locationManager = (LocationManager) ReportActivity.this.getSystemService(LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        Report newReport = new Report();
+        newReport.setLatitude((float) location.getLatitude());
+        newReport.setLongitude((float) location.getLongitude());
+        newReport.setSubmitDate(new DateTime(new Date()));
+        newReport.setUser(AuthUtils.getAccount());
+        newReport.setListTag(new ArrayList(tagList.values()));
+
+        ReportCallbackImpl callback = new ReportCallbackImpl(ReportActivity.this);
+        new AddReportAsyncTask(this, callback, AuthUtils.getCredential(), newReport, bitmapPicture).execute();
     }
 
     @Override
@@ -146,6 +125,7 @@ public class ReportActivity extends Activity {
         switch (requestCode) {
             case IntentTag.TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
+                    bitmapPicture = (Bitmap) data.getExtras().get("data");
                     showPicture();
 
                     capture.setText(R.string.retake_picture);
@@ -171,9 +151,8 @@ public class ReportActivity extends Activity {
     }
 
     public void showPicture() {
-        if (localPicturePath != null) {
-            Bitmap pictureBitmap = BitmapFactory.decodeFile(localPicturePath);
-            imageView.setImageBitmap(pictureBitmap);
+        if (bitmapPicture != null) {
+            imageView.setImageBitmap(ImageUtils.getRoundedCornerBitmap(bitmapPicture, 64));
         }
     }
 
@@ -201,18 +180,17 @@ public class ReportActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putIntegerArrayList("tagList", new ArrayList<Integer>(tagList.keySet()));
-        savedInstanceState.putString("localPicturePath", localPicturePath);
+        savedInstanceState.putParcelable("image", bitmapPicture);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        localPicturePath = savedInstanceState.getString("localPicturePath");
+        bitmapPicture = savedInstanceState.getParcelable("image");
         ArrayList<Integer> positionList = savedInstanceState.getIntegerArrayList("tagList");
         CurrentTagList.getInstance().putAllFromPositions(tagList, positionList);
 
-        Log.d(Constants.PROJECT_NAME, "localPicturePath " + localPicturePath);
         Log.d(Constants.PROJECT_NAME, "positionList " + positionList.toString());
 
         showTagList();

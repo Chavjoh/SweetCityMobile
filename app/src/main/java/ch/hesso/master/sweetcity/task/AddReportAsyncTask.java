@@ -1,6 +1,7 @@
 package ch.hesso.master.sweetcity.task;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,14 +21,14 @@ public class AddReportAsyncTask extends AsyncTask<String, Void, Void> {
     private ReportCallback callback;
     private GoogleAccountCredential credential;
     private Report report;
-    private String localPicturePath;
+    private Bitmap picture;
 
-    public AddReportAsyncTask(Activity context, ReportCallback callback, GoogleAccountCredential credential, Report report, String localPicturePath) {
+    public AddReportAsyncTask(Activity context, ReportCallback callback, GoogleAccountCredential credential, Report report, Bitmap picture) {
         this.context = context;
         this.callback = callback;
         this.credential = credential;
         this.report = report;
-        this.localPicturePath = localPicturePath;
+        this.picture = picture;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class AddReportAsyncTask extends AsyncTask<String, Void, Void> {
         try {
             Log.d(Constants.PROJECT_NAME, "[ReportService] Adding ...");
 
-            PictureUtils.Key key = PictureUtils.uploadPicture(this.localPicturePath, this.credential);
+            PictureUtils.Key key = PictureUtils.uploadPicture(this.picture, this.credential);
             report.setImage(key.toString());
 
             ReportService service = ServiceUtils.getReportService(credential);

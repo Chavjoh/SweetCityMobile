@@ -1,5 +1,6 @@
 package ch.hesso.master.sweetcity.utils;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.amazonaws.ClientConfiguration;
@@ -12,21 +13,23 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ch.hesso.master.sweetcity.Constants;
 
 public class PictureUtils {
 
-    private static AWSCredentials awsCredentials = new BasicAWSCredentials(Constants.AWS_ACCESS_KEY, Constants.AWS_SECRET_ACCESS_KEY);
-    private final static String END_POINT = "s3-eu-west-1.amazonaws.com"; // See http://docs.aws.amazon.com/general/latest/gr/rande.html .
-    private final static String BUCKET_NAME = "sweet-city";
+    private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials(
+            Constants.AWS_ACCESS_KEY, Constants.AWS_SECRET_ACCESS_KEY);
+
+    private static final String PICTURE_NAME_FORMAT = "pictures/%s/img_%s.jpg";
+    private static final String END_POINT = "s3-eu-west-1.amazonaws.com";
+    private static final String BUCKET_NAME = "sweet-city";
 
     public static class Key {
         private String key;
+
         protected Key(String key) {
             this.key = key;
         }
@@ -41,21 +44,30 @@ public class PictureUtils {
         }
     }
 
-    public static Key uploadPicture(String localPath, GoogleAccountCredential googleCredential) {
-        if (localPath == null)
+    public static Key uploadPicture(Bitmap picture, GoogleAccountCredential googleCredential) {
+        if (picture == null)
             return null;
 
         try {
             ClientConfiguration clientConfig = new ClientConfiguration();
             clientConfig.setProtocol(Protocol.HTTP);
-            AmazonS3 s3Connection = new AmazonS3Client(awsCredentials, clientConfig);
-            s3Connection.setEndpoint(END_POINT); // http://docs.aws.amazon.com/general/latest/gr/rande.html
+            AmazonS3 s3Connection = new AmazonS3Client(AWS_CREDENTIALS, clientConfig);
+            s3Connection.setEndpoint(END_POINT);
 
-            InputStream localStreamPicture = new FileInputStream(localPath);
             ObjectMetadata pictureMetadata = new ObjectMetadata();
 
-            String key = String.format("pictures/%s/img_%s.jpg", googleCredential.getSelectedAccountName(), new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-SSSZ").format(new Date()));
-            s3Connection.putObject(BUCKET_NAME, key, localStreamPicture, pictureMetadata);
+            String key = String.format(
+                    PICTURE_NAME_FORMAT,
+                    googleCredential.getSelectedAccountName(),
+                    Constants.DATE_FORMAT_IMAGE.format(new Date())
+            );
+
+            s3Connection.putObject(
+                    BUCKET_NAME,
+                    key,
+                    ImageUtils.bitmapToInputStream(picture),
+                    pictureMetadata
+            );
 
             return new Key(key);
         } catch (Exception e) {
@@ -71,7 +83,7 @@ public class PictureUtils {
         try {
             ClientConfiguration clientConfig = new ClientConfiguration();
             clientConfig.setProtocol(Protocol.HTTP);
-            AmazonS3 s3Connection = new AmazonS3Client(awsCredentials, clientConfig);
+            AmazonS3 s3Connection = new AmazonS3Client(AWS_CREDENTIALS, clientConfig);
             s3Connection.setEndpoint(END_POINT);
 
             S3Object obj = s3Connection.getObject(BUCKET_NAME, key.toString());
