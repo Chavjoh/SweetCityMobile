@@ -3,10 +3,10 @@ package ch.hesso.master.sweetcity.activity.report;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -54,15 +54,52 @@ public class ReportActivity extends Activity {
     private Button tagSelection;
     private Button submit;
 
+    Location currentLocation;
+    LocationListener locationListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
+        this.updateCurrentLocation();
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         findViews();
         initButtons();
+    }
+
+    void updateCurrentLocation() {
+        if (this.locationListener == null)
+            this.locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    ReportActivity.this.currentLocation = location;
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) { }
+
+                @Override
+                public void onProviderEnabled(String provider) { }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) { }
+            };
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(false);
+        criteria.setHorizontalAccuracy(Criteria.ACCURACY_MEDIUM);
+        criteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
+        criteria.setSpeedAccuracy(Criteria.NO_REQUIREMENT);
+        criteria.setSpeedRequired(false);
+
+        LocationManager locationManager = (LocationManager)ReportActivity.this.getSystemService(LOCATION_SERVICE);
+        locationManager.requestSingleUpdate(criteria, this.locationListener, null);
     }
 
     private void findViews() {
@@ -125,12 +162,18 @@ public class ReportActivity extends Activity {
             return;
         }
 
-        LocationManager locationManager = (LocationManager) ReportActivity.this.getSystemService(LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (this.currentLocation == null) {
+            LocationManager locationManager = (LocationManager)ReportActivity.this.getSystemService(LOCATION_SERVICE);
+            this.currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (this.currentLocation == null) {
+                DialogUtils.show(ReportActivity.this, "Unable to get your current location.");
+                return;
+            }
+        }
 
         Report newReport = new Report();
-        newReport.setLatitude((float) location.getLatitude());
-        newReport.setLongitude((float) location.getLongitude());
+        newReport.setLatitude((float) this.currentLocation.getLatitude());
+        newReport.setLongitude((float) this.currentLocation.getLongitude());
         newReport.setSubmitDate(new DateTime(new Date()));
         newReport.setUser(AuthUtils.getAccount());
         newReport.setListTag(new ArrayList(tagList.values()));
