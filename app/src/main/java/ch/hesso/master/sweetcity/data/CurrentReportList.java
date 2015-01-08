@@ -52,6 +52,10 @@ public class CurrentReportList {
     }
 
     public Report get(Integer position) {
+        if ( position < 0 || position >= reportList.size()) {
+            return null;
+        }
+
         return reportList.get(position);
     }
 }

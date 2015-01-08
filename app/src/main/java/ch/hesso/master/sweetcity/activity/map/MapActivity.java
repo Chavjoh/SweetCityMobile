@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.hesso.master.sweetcity.R;
 import ch.hesso.master.sweetcity.activity.IntentTag;
@@ -81,7 +82,7 @@ public class MapActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        showReports();
+        showMarkers();
         configureMap();
         showCurrentPosition();
 
@@ -183,8 +184,16 @@ public class MapActivity extends FragmentActivity {
             }
         });
     }
+
+    public void deleteMarkers() {
+        for(Map.Entry<Marker, Report> entry : markerReport.entrySet()) {
+            entry.getKey().remove();
+        }
+
+        markerReport.clear();
+    }
     
-    public void showReports(){
+    public void showMarkers(){
         if (map == null)
             return;
 
@@ -234,7 +243,9 @@ public class MapActivity extends FragmentActivity {
         public void loaded(List<Report> list) {
             super.loaded(list);
             progressHelper.stopProgress();
-            showReports();
+
+            deleteMarkers();
+            showMarkers();
         }
     }
 }

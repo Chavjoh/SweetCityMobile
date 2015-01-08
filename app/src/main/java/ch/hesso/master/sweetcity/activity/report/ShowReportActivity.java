@@ -17,6 +17,7 @@ import ch.hesso.master.sweetcity.callback.PictureUploadCallbackImpl;
 import ch.hesso.master.sweetcity.data.CurrentReportList;
 import ch.hesso.master.sweetcity.model.Report;
 import ch.hesso.master.sweetcity.task.GetReportPictureAsyncTask;
+import ch.hesso.master.sweetcity.utils.DialogUtils;
 import ch.hesso.master.sweetcity.utils.ImageUtils;
 import ch.hesso.master.sweetcity.utils.LayoutUtils;
 import ch.hesso.master.sweetcity.utils.ModelUtils;
@@ -43,17 +44,23 @@ public class ShowReportActivity extends Activity {
         Integer position = getIntent().getIntExtra("report", 0);
         this.report = CurrentReportList.getInstance().get(position);
 
-        this.tvUser.setText(report.getUser().getPseudo());
-        this.tvDate.setText(Constants.DATE_FORMAT.format(report.getSubmitDate().getValue()));
-        this.tvVotes.setText(String.valueOf(report.getVote()));
-        this.tvTags.setText(ModelUtils.listToString(this.report.getListTag()));
+        if (this.report == null) {
+            DialogUtils.showAndExit(this, "This report doesn't exist or not anymore.");
+        } else {
+            this.tvUser.setText(report.getUser().getPseudo());
+            this.tvDate.setText(Constants.DATE_FORMAT.format(report.getSubmitDate().getValue()));
+            this.tvVotes.setText(String.valueOf(report.getVote()));
+            this.tvTags.setText(ModelUtils.listToString(this.report.getListTag()));
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        loadPicture();
+        if (report != null) {
+            loadPicture();
+        }
     }
 
     private void loadPicture() {
