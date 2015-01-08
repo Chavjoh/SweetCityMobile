@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class MapLocationListener implements LocationListener {
 
     private GoogleMap map;
+    private Location currentLocation;
 
     public MapLocationListener(GoogleMap map) {
         this.map = map;
@@ -18,6 +19,8 @@ public class MapLocationListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+
+        currentLocation = location;
 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
@@ -46,4 +49,9 @@ public class MapLocationListener implements LocationListener {
     public void onProviderDisabled(String provider) {
 
     }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
 }

@@ -212,11 +212,22 @@ public class MapActivity extends FragmentActivity {
         // Enabling MyLocation Layer of Google Map
         map.setMyLocationEnabled(true);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationProvider = locationManager.getBestProvider(new Criteria(), true);
-        Location location = locationManager.getLastKnownLocation(locationProvider);
+        Criteria lightCriteria = new Criteria();
+        lightCriteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        lightCriteria.setAltitudeRequired(false);
+        lightCriteria.setBearingRequired(false);
+        lightCriteria.setCostAllowed(false);
+        lightCriteria.setHorizontalAccuracy(Criteria.ACCURACY_MEDIUM);
+        lightCriteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
+        lightCriteria.setSpeedAccuracy(Criteria.NO_REQUIREMENT);
+        lightCriteria.setSpeedRequired(false);
 
         listener = new MapLocationListener(map);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestSingleUpdate(lightCriteria, listener, null);
+        locationProvider = locationManager.getBestProvider(new Criteria(), true);
+        Location location = locationManager.getLastKnownLocation(locationProvider);
 
         if (location != null) {
             listener.onLocationChanged(location);
