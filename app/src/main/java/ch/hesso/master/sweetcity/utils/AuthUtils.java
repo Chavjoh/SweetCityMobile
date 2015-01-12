@@ -60,6 +60,7 @@ public class AuthUtils {
         this.setContext(context);
 
         credential = GoogleAccountCredential.usingAudience(context, Constants.AUDIENCE);
+        saveAccountName(getAccountName());
     }
 
     public void setContext(Activity context) {
@@ -76,15 +77,19 @@ public class AuthUtils {
     }
 
     public void setAccountName(String accountName) {
+        saveAccountName(accountName);
+
+        if (accountName != null) {
+            this.callbackAccount.selected();
+        }
+    }
+
+    private void saveAccountName(String accountName) {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(KEY_ACCOUNT_NAME, accountName);
         editor.commit();
 
         credential.setSelectedAccountName(accountName);
-
-        if (accountName != null) {
-            this.callbackAccount.selected();
-        }
     }
 
     private void chooseAccount() {

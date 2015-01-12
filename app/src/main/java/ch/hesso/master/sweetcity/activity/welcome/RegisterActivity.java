@@ -17,6 +17,7 @@
 package ch.hesso.master.sweetcity.activity.welcome;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +50,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_register);
 
         login = LayoutUtils.findView(this, R.id.et_register);
+        login.setTextColor(Color.BLACK);
+
         submit = LayoutUtils.findView(this, R.id.btn_register);
         submit.setOnClickListener(this);
     }
@@ -56,11 +59,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (LayoutUtils.isEmpty(login)) {
-            DialogUtils.show(RegisterActivity.this, "Please enter a login name to register");
+            DialogUtils.show(this, "Please enter a login name to register");
         } else {
-            AccountCallback callback = new AccountCallbackImpl(RegisterActivity.this);
+            AccountCallback callback = AuthUtils.getInstance(this).getCallback();
             new RegisterAsyncTask(
-                    RegisterActivity.this,
+                    this,
                     callback,
                     AuthUtils.getCredential(),
                     login.getText().toString()

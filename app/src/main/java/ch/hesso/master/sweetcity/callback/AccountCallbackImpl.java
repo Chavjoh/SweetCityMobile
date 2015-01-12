@@ -48,15 +48,16 @@ public class AccountCallbackImpl implements AccountCallback {
     @Override
     public void beforeRegistration() {
         isFailed = false;
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Registering ...");
-        progressDialog.show();
+        //progressDialog = new ProgressDialog(context);
+        //progressDialog.setMessage("Registering ...");
+        //progressDialog.show();
     }
 
     @Override
     public void registered() {
+        //progressDialog.dismiss();
+
         if (isFailed) {
-            progressDialog.dismiss();
             DialogUtils.show(context, "Service unavailable");
         } else {
             context.finish();
